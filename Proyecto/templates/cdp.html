@@ -1,0 +1,179 @@
+<!-- cdp es Consulta de Pacientes -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCenter - CDP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .izquierda, .derecha {
+            width: 45%;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin-top: 20px;;
+        }
+
+        .izquierda {
+            margin-left: 20px;
+        }
+
+        .derecha {
+            margin-right: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="date"], input[type="checkbox"] {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .lista-pacientes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .tarjeta-paciente {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .tarjeta-paciente p {
+            margin: 0;
+        }
+
+        .acciones-formulario {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .acciones-formulario button {
+            padding: 10px 20px;
+            background-color: #e4e4e4;
+            color: #000000;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .acciones-formulario button:hover {
+            background-color: #beffdc;
+        }
+
+        .barra-busqueda {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .barra-busqueda input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .barra-busqueda button {
+            padding: 10px;
+            background-color: #e4e4e4;
+            color: #000000;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .barra-busqueda button:hover {
+            background-color: #beffdc;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="izquierda">
+        <h1>Modificar Expediente</h1>
+        <form>
+            <label for="nombrePaciente">Nombre Completo del Paciente:</label>
+            <input type="text" id="nombrePaciente" name="nombrePaciente" placeholder="Ingrese el nombre completo">
+
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+
+            <label for="enfermedades">Enfermedades Crónicas:</label>
+            <input type="text" id="enfermedades" name="enfermedades" placeholder="Enfermedades crónicas">
+
+            <label for="alergias">Alergias:</label>
+            <input type="text" id="alergias" name="alergias" placeholder="Alergias">
+
+            <label for="antecedentes">Antecedentes Familiares:</label>
+            <input type="text" id="antecedentes" name="antecedentes" placeholder="Antecedentes familiares">
+
+            <div class="acciones-formulario">
+                <button type="reset">Limpiar</button>
+                <button type="submit">Actualizar Expediente</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="derecha">
+        <h1>Pacientes Actuales</h1>
+
+        <div class="barra-busqueda">
+            <input type="text" placeholder="Buscar paciente...">
+            <button>Buscar</button>
+        </div>
+
+        <div class="lista-pacientes">
+            <div class="tarjeta-paciente">
+                <p>Emiliano Jimenez</p>
+                <p>Folio: 122876364</p>
+            </div>
+            <div class="tarjeta-paciente">
+                <p>Andres Badillo</p>
+                <p>Folio: 123857465</p>
+            </div>
+            <div class="tarjeta-paciente">
+                <p>Miguel Martinez</p>
+                <p>Folio: 123957483</p>
+            </div>
+        </div>
+        <div class ="acciones-formulario">
+            <button onclick="window.location.href='/registrar-paciente'">Registrar Nuevo Paciente</button>
+        </div>
+    </div>
+
+</body>
+</html>

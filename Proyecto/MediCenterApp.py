@@ -14,8 +14,12 @@ app.secret_key ='mysecretkey'
 def home():
     return render_template('login.html')
 
+@app.route('/cdp') #Ruta medicos
+def cdp():
+    return render_template('cdp.html')
+
 @app.route('/medicos') #Ruta medicos
-def consulta():
+def medicos():
     return render_template('medicos.html')
 
 @app.errorhandler(404) #Ruta try-catch 404

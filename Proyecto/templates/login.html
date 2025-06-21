@@ -17,6 +17,13 @@
         .login-container {
             text-align: center;
         }
+        
+        .login-box img {
+            width: 250px;
+            margin-bottom: 5px;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
 
         .login-box {
             border: 1px solid #ccc;
@@ -32,7 +39,8 @@
 
         h3 {
             font-size: 1.2em;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            margin-top: 15px;
         }
 
         input[type="text"], input[type="password"] {
@@ -45,8 +53,15 @@
         }
 
         button {
-            padding: 10px 25px;
-            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #e4e4e4;
+            color: #000000;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #beffdc;
         }
 
         a {
@@ -60,7 +75,9 @@
 
     <div class="login-container">
         <div class="login-box">
-            <h1>MediCenter</h1>
+            <img src="{{ url_for('static', filename='imagenes/logo.png') }}">
+
+            <div>
             <h3>Ingresa a tu cuenta</h3>
 
             <form action="/">
@@ -69,7 +86,8 @@
                 <a href="#">¿Olvidó su contraseña?</a>
                 <button type="button" onclick="window.location.href='/medicos'">Entrar</button>
 
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
