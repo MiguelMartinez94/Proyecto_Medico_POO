@@ -22,6 +22,10 @@ def cdp():
 def medicos():
     return render_template('medicos.html')
 
+@app.route('/exploracion_diagnostico')
+def expDiag():
+    return render_template('cita_exploracion_diagnostico.html')
+
 @app.errorhandler(404) #Ruta try-catch 404
 def PagNoE(e):
     return 'EY! Aprenda a escribir :)'

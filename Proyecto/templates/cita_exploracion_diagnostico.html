@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploración y Diagnóstico</title>
+</head>
+<body>
+
+    <style>
+
+        body{
+
+            margin: 0;
+            padding: 0;
+            max-width: 100%;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+
+        }
+
+        nav{
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #f4f4f4;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+
+
+
+
+        .contenedor_general{
+
+            display: flex;
+            flex-direction: row;
+            border: 2px solid #000;
+            gap: 10vh;
+            padding: 5rem;
+            justify-content: center;
+            width: 70%;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            background-color: #fff;
+        }
+
+        .botones{
+
+            text-align: center;
+            color: #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .botones button{
+            text-align: center;
+            margin: 2rem;
+            padding: 10px 20px;
+            color: #000000;
+            border-radius: 5px;
+            cursor: pointer;
+
+        }
+
+        .botones button:hover{
+
+            background-color: #beffdc;
+        }
+
+
+
+        .datos_exploracion{
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #000;
+            gap: 0.7rem;
+            padding: 2rem;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            background-color: #fff;
+
+        }
+
+        .diagnostico_paciente{
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #000;
+            gap: 0.7rem;
+            padding: 2rem;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            background-color: #fff;
+        }
+
+        p{
+            text-align: justify;
+        }
+
+        .perfil{
+            border: 2px solid #000;
+            height: 250px;
+            width: 200px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem;
+            padding: 1rem;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+
+            background-color: #fff;
+            
+        }
+
+        .perfil img{
+            width: 50%;
+            height: auto;
+            display: block;
+        }
+
+        h2{
+
+            text-align: center;
+        }
+
+        textarea{
+
+            width: 100%;
+            height: 5rem;
+            box-sizing: border-box;
+
+            
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .imagen_logo{
+
+            
+            justify-content: center;
+            align-items: center;
+            
+            margin: 2rem;
+            height: 12rem;
+            width: 12rem;
+            
+        }
+
+        .imagen_logo img{
+
+            width: 100%;
+            height: auto;
+            display: block;
+            justify-content: center;
+
+        }
+
+        .top{
+
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"], input[type="date"], input[type="number"] {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        
+        
+
+    
+
+    </style>
+
+    <nav>
+
+        <ul class="nav-links">
+
+            <li><a href="">Pacientes</a></li>
+            <li><a href="">Citas</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="top">
+        <div class="perfil">
+            <h2>Perfil del Paciente</h2>
+            <img src="{{ url_for('static', filename='imagenes/foto_perfil.png') }}" alt="Foto de perfil">
+
+            <p>Nombre del Paciente</p>
+            <p>Folio: XXXXXX</p>
+
+        </div>
+
+        <div class="imagen_logo">
+            <img src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Logo">
+        </div>
+    </div>
+    
+    <form action="" method="post">
+        <div class="contenedor_general">
+
+            <div class="datos_exploracion">
+                <h2>Datos de la Exploración</h2>
+                <p>Ingresar los resultados de la exploracio del paciente.</p>
+
+                <label for="">Fecha</label>
+                <input type="date" id="fechaExploracion" name="fechaExploracion">
+
+                <label for="">Altura (cm)</label>
+                <input type="number" id="altura" name="altura">
+
+                <label for="">Ritmo Cardíaco (lpm)</label>
+                <input type="number" id="lpm" name="lpm">
+
+                <label for="">Glucosa (mg/dL)</label>
+                <input type="number" id="glucosa" name="glucosa">
+
+                <label for="">Peso (Kg)</label>
+                <input type="number" id="peso" name="peso">
+
+                <label for="">Temperatura (°C)</label>
+                <input type="number" id="temperatura" name="temperatura">
+
+                <label for="">Saturación de Oxigeno (%)</label>
+                <input type="number" id="saturacionOxigeno" name="saturacionOxigeno">
+
+
+            </div>
+
+            <div class="diagnostico_paciente">
+
+                <h2>Diagnóstico de Paciente</h2>
+                <p>Ingresar los resultados del diagnóstico</p>
+
+                <label for="">Síntomas</label>
+                <textarea name="sintomas" id="sintomas" placeholder="Ingresar los síntomas que presenta el paciente"></textarea>
+
+                <label for="">Diagnóstico</label>
+                <input type="text" placeholder="Ingresar el diagnóstico" id="diagnostico" name="diagnostico">
+
+                <label for="">Receta Médica</label>
+                <textarea name="receta" id="receta" placeholder="Ingresar la receta del paciente"></textarea>
+
+                <label for="">Indicaciones</label>
+                <textarea name="indicaciones" id="indicaciones" placeholder="Ingresar las indicaciones que el paciente deberá seguir"></textarea>
+            </div>
+
+        </div>
+            <div class="botones">
+                <button>Limpiar</button>
+                <button type="submit">Registrar Diagnóstico y Exploración</button>
+                <button>Descargar</button>
+            </div>
+    </form>
+
+
+
+    
+</body>
+</html>
