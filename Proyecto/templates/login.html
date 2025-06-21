@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCenter - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            text-align: center;
+        }
+
+        .login-box {
+            border: 1px solid #ccc;
+            padding: 40px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 250px;
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            padding: 10px 25px;
+            margin-top: 10px;
+        }
+
+        a {
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h1>MediCenter</h1>
+            <h3>Ingresa a tu cuenta</h3>
+
+            <form action="/">
+                <input type="text" name="txtRFC" placeholder="RFC">
+                <input type="password" name="txtContrasena" placeholder="Contraseña">
+                <a href="#">¿Olvidó su contraseña?</a>
+                <button type="button" onclick="window.location.href='/medicos'">Entrar</button>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
