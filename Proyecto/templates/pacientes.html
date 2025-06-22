@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente de Paciente</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 25px;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-label {
+            width: 250px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .form-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-clear {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .btn-clear:hover {
+            background-color: #7f8c8d;
+        }
+        .btn-register {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-register:hover {
+            background-color: #2980b9;
+        }
+        .separator {
+            height: 1px;
+            background-color: #eee;
+            margin: 25px 0;
+        }
+        .operation-text {
+            color: #3498db;
+            font-style: italic;
+            margin-left: 250px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Expediente de Paciente</h1>
+        
+        <h2>Ingresa los datos del nuevo paciente</h2>
+        
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-label">Médico que atiende</div>
+                <input type="text" class="form-input">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-label">Nombre Médico</div>
+                <input type="text" class="form-input">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-label">Nombre Completo del Paciente</div>
+                <input type="text" class="form-input">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-label">Fecha de Nacimiento</div>
+                <input type="date" class="form-input">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-label">Enfermedades Crónicas</div>
+                <input type="text" class="form-input">
+            </div>
+            
+            <div class="operation-text">Opcional</div>
+            
+            <div class="form-row">
+                <div class="form-label">Alergias</div>
+                <input type="text" class="form-input">
+            </div>
+            
+            <div class="operation-text">Opcional</div>
+            
+            <div class="form-row">
+                <div class="form-label">Antecedentes Familiares</div>
+                <input type="text" class="form-input">
+            </div>
+            
+        <div class="separator"></div>
+        
+        <div class="button-group">
+            <button class="btn btn-clear">Limpiar</button>
+            <button class="btn btn-register">Registrar Expediente</button>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidad para el botón Limpiar
+        document.querySelector('.btn-clear').addEventListener('click', function(e) {
+            e.preventDefault();
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        });
+
+        // Funcionalidad para el botón Registrar
+        const registerBtn = document.getElementById('register-btn');
+        const modal = document.getElementById('confirmation-modal');
+        const modalMessage = document.getElementById('modal-message');
+        
+        registerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Mostrar confirmación de registro
+            modalMessage.textContent = "El paciente ha sido registrado correctamente.";
+            modal.style.display = 'flex';
+        });
+        
+        // Cerrar
+        document.getElementById('close-modal-btn').addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        goToPatientsBtn.addEventListener('click', function() {
+            // Redirigir a la página de pacientes
+            alert('Redirigiendo a la lista de pacientes');
+            modal.style.display = 'none';
+            window.location.href = 'cita_exploracion_diagnostico.html';
+        });
+        
+        // Cerrar modal haciendo clic fuera del contenido
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
