@@ -30,6 +30,10 @@ def expDiag():
 def pacientes():
     return render_template('pacientes.html')
 
+@app.route('/consultar_citas')
+def citas():
+    return render_template('consultar_citas.html')
+
 @app.errorhandler(404) #Ruta try-catch 404
 def PagNoE(e):
     return 'EY! Aprenda a escribir :)'
