@@ -34,6 +34,23 @@ def pacientes():
 def citas():
     return render_template('consultar_citas.html')
 
+@app.route('/agregar_medico', methods=['GET', 'POST'])
+def agregar_medico():
+    return render_template('agregar_medico.html')
+
+@app.route('/administrar_medicos')
+def administrar_medicos():
+    return render_template('administrar_medicos.html')
+@app.route('/editar_medico/<rfc>', methods=['GET', 'POST'])
+def editar_medico(rfc):
+    # Por ahora solo mostramos un mensaje
+    return f"Editar médico con RFC: {rfc}" 
+
+@app.route('/eliminar_medico/<rfc>')
+def eliminar_medico(rfc):
+    # Por ahora solo mostramos un mensaje
+    return f"Eliminar médico con RFC: {rfc}"
+
 @app.errorhandler(404) #Ruta try-catch 404
 def PagNoE(e):
     return 'EY! Aprenda a escribir :)'
