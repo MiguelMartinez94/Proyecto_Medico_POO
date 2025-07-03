@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nuevo Médico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        h1 i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            gap: 8px;
+        }
+
+        .btn-submit {
+            background-color: #27ae60;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+
+        .btn-back {
+            background-color: #95a5a6;
+            padding: 10px 20px;
+            margin-top: 15px;
+        }
+
+        .btn-back:hover {
+            background-color: #7f8c8d;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .instructions p {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-back {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-user-md"></i> Registrar Nuevo Médico</h1>
+        
+        <div class="instructions">
+            <p><strong>Instrucciones:</strong> Complete todos los campos marcados con <span class="required">*</span> para registrar un nuevo médico.</p>
+            <p>Las contraseñas deben tener al menos 8 caracteres y coincidir en ambos campos.</p>
+        </div>
+        
+        <form id="medicoForm">
+            <div class="form-section">
+                <h2><i class="fas fa-id-card"></i> Información Personal</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez López" required>
+                        </div>
+                        <div class="error" id="nombreError">Por favor ingrese el nombre completo</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rfc">RFC <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="rfc" name="rfc" placeholder="ABC123456XYZ" required>
+                        </div>
+                        <div class="error" id="rfcError">Por favor ingrese el RFC</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="correo" name="correo" placeholder="juan.perez@ejemplo.com" required>
+                        </div>
+                        <div class="error" id="correoError">Por favor ingrese un correo válido</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="telefono" name="telefono" placeholder="(55) 1234-5678" required>
+                        </div>
+                        <div class="error" id="telefonoError">Por favor ingrese un teléfono</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2><i class="fas fa-stethoscope"></i> Información Profesional</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cedula">Cédula Profesional <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-id-badge"></i>
+                            <input type="text" id="cedula" name="cedula" placeholder="12345678" required>
+                        </div>
+                        <div class="error" id="cedulaError">Por favor ingrese la cédula</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="especialidad">Especialidad <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-heartbeat"></i>
+                            <input type="text" id="especialidad" name="especialidad" placeholder="Cardiología" required>
+                        </div>
+                        <div class="error" id="especialidadError">Por favor ingrese la especialidad</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rol">Rol en el Sistema <span class="required">*</span></label>
+                    <div class="input-container">
+                        <i class="fas fa-user-tag"></i>
+                        <select id="rol" name="rol" required>
+                            <option value="" disabled selected>Seleccione un rol</option>
+                            <option value="medico">Médico General</option>
+                            <option value="medico_admin">Médico Administrador</option>
+                            <option value="especialista">Médico Especialista</option>
+                        </select>
+                    </div>
+                    <div class="error" id="rolError">Por favor seleccione un rol</div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2><i class="fas fa-lock"></i> Seguridad</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Contraseña <span class="required">*</span></label>
+                        <div class="input-container password-container">
+                            <i class="fas fa-key"></i>
+                            <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                        <div class="error" id="passwordError">La contraseña debe tener al menos 8 caracteres</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Contraseña <span class="required">*</span></label>
+                        <div class="input-container password-container">
+                            <i class="fas fa-key"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita su contraseña" required>
+                            <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+                        </div>
+                        <div class="error" id="confirmPasswordError">Las contraseñas no coinciden</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-submit">
+                <i class="fas fa-save"></i> Registrar Médico
+            </button>
+        </form>
+        
+        <div class="form-footer">
+            <a href="administrar_medicos.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Volver a Administración
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar contraseña
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+        
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                confirmPasswordInput.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+        
+        // Validación del formulario
+        const form = document.getElementById('medicoForm');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validar campos vacíos
+            const requiredFields = [
+                'nombre', 'rfc', 'correo', 'telefono', 
+                'cedula', 'especialidad', 'rol', 
+                'password', 'confirmPassword'
+            ];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    showError(input, `${field}Error`, 'Este campo es obligatorio');
+                    isValid = false;
+                } else {
+                    clearError(input);
+                }
+            });
+            
+            // Validar correo
+            const correo = document.getElementById('correo');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (correo.value.trim() && !emailRegex.test(correo.value.trim())) {
+                showError(correo, 'correoError', 'Por favor ingrese un correo válido');
+                isValid = false;
+            }
+            
+            // Validar contraseña
+            const password = document.getElementById('password');
+            if (password.value.length < 8) {
+                showError(password, 'passwordError', 'La contraseña debe tener al menos 8 caracteres');
+                isValid = false;
+            }
+            
+            // Validar confirmación de contraseña
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword.value !== password.value) {
+                showError(confirmPassword, 'confirmPasswordError', 'Las contraseñas no coinciden');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                alert('¡Registro exitoso!\n\nEl médico ha sido registrado correctamente en el sistema.');
+                form.reset();
+            }
+        });
+        
+        function showError(input, errorId, message) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            input.style.borderColor = '#e74c3c';
+        }
+        
+        function clearError(input) {
+            const fieldName = input.id;
+            const errorElement = document.getElementById(`${fieldName}Error`);
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+            input.style.borderColor = '#ddd';
+        }
+        
+        // Limpiar errores al escribir
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                clearError(this);
+            });
+        });
+    </script>
+</body>
+</html>
