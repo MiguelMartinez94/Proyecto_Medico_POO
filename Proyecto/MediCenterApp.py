@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = "localhost"
 app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = ""
-app.config['MYSQL_DB'] = ""
+app.config['MYSQL_PASSWORD'] =
+app.config['MYSQL_DB'] =
 #app.config['MYSQL_PORT'] = 3306
 app.secret_key ='mysecretkey'
 
@@ -48,18 +48,137 @@ def DB_check():
 def home():
     return render_template('login.html')
 
+#CRUD DE MEDICOS
+# Ruta para guardar médico
+@app.route('/guardarMedico', methods=['POST'])
+def guardar_medico():
+    errores = {}
 
-@app.route('/medicos') #Ruta medicos
-def medicos():
-    return render_template('medicos.html')
+    # Obtener los datos del formulario (solo los requeridos)
+    rfc = request.form.get('rfc', '').strip()
+    nombre = request.form.get('nombre', '').strip()
+    correo = request.form.get('correo', '').strip()
+    cedula = request.form.get('cedula', '').strip()
+    rol = request.form.get('rol', '').strip()
+    password = request.form.get('password', '').strip()
+    confirmPassword = request.form.get('confirmPassword', '').strip()
 
-@app.route('/exploracion_diagnostico')
-def expDiag():
-    return render_template('cita_exploracion_diagnostico.html')
+    # Validación de los datos
+    if not nombre:
+        errores['nombre'] = 'Nombre completo es obligatorio'
+    if not rfc:
+        errores['rfc'] = 'RFC es obligatorio'
+    if not correo or '@' not in correo:
+        errores['correo'] = 'Correo electrónico inválido'
+    if not cedula:
+        errores['cedula'] = 'Cédula profesional es obligatoria'
+    if not rol:
+        errores['rol'] = 'Rol es obligatorio'
+    if not password or len(password) < 8:
+        errores['password'] = 'La contraseña debe tener al menos 8 caracteres'
+    if password != confirmPassword:
+        errores['confirmPassword'] = 'Las contraseñas no coinciden'
 
+    if not errores:
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                'INSERT INTO administracion_medicos (rfc, nombre, correo, cedula, rol, password) VALUES (%s, %s, %s, %s, %s, %s)',
+                (rfc, nombre, correo, cedula, rol, password)
+            )
+            mysql.connection.commit()
+            flash('Médico registrado correctamente en la base de datos')
+            return redirect(url_for('administrar_medicos'))
+        except Exception as e:
+            mysql.connection.rollback()
+            flash('Error al guardar el médico: ' + str(e))
+            return redirect(url_for('agregar_medico'))
+        finally:
+            cursor.close()
+
+    return render_template('agregar_medico.html', errores=errores)
+
+@app.route('/agregar_medico', methods=['GET', 'POST'])
+def agregar_medico():
+    if request.method == 'POST':
+        return guardar_medico()
+    return render_template('agregar_medico.html')
+
+@app.route('/administrar_medicos')
+def administrar_medicos():
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
+        medicos = cursor.fetchall()
+        return render_template('administrar_medicos.html', medicos=medicos)
+    except Exception as e:
+        flash('Error al obtener los médicos: ' + str(e))
+        return render_template('administrar_medicos.html', medicos=[])
+    finally:
+        cursor.close()
+
+# Ruta para editar médico
+@app.route('/editar_medico/<rfc>', methods=['POST'])
+def editar_medico(rfc):
+    # Obtener los datos del formulario para la actualización
+    nombre = request.form.get('nombre', '').strip()
+    correo = request.form.get('correo', '').strip()
+    cedula = request.form.get('cedula', '').strip()
+    rol = request.form.get('rol', '').strip()
+    password = request.form.get('password', '').strip()
+    confirmPassword = request.form.get('confirmPassword', '').strip()
+
+    errores = {}
+
+    # Validaciones de los campos
+    if not nombre:
+        errores['nombre'] = 'El nombre es obligatorio'
+    if not correo or '@' not in correo:
+        errores['correo'] = 'Correo electrónico inválido'
+    if not cedula:
+        errores['cedula'] = 'La cédula profesional es obligatoria'
+    if not rol:
+        errores['rol'] = 'El rol es obligatorio'
+    if not password or len(password) < 8:
+        errores['password'] = 'La contraseña debe tener al menos 8 caracteres'
+    if password != confirmPassword:
+        errores['confirmPassword'] = 'Las contraseñas no coinciden'
+
+    if errores:
+        # Si hay errores, volvemos a mostrar el formulario con los errores y los datos previos
+        return render_template('actualizar_medico.html', errores=errores, rfc=rfc,nombre=nombre, correo=correo, cedula=cedula, rol=rol, password=password)
+
+    # Si no hay errores, actualizamos el registro
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('''UPDATE administracion_medicos SET nombre=%s, correo=%s, cedula=%s, rol=%s, password=%s WHERE rfc=%s''',(nombre, correo, cedula, rol, password, rfc))
+        mysql.connection.commit()
+        flash('Médico actualizado correctamente')
+        return redirect(url_for('administrar_medicos'))  # Redirigir a la página de administración
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error al actualizar el médico: ' + str(e))
+        return redirect(url_for('editar_medico', rfc=rfc))
+    finally:
+        cursor.close()
+
+# Ruta para eliminar médico
+@app.route('/eliminar_medico/<rfc>', methods=['POST'])
+def eliminar_medico(rfc):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('UPDATE administracion_medicos SET estado = 0 WHERE rfc = %s', (rfc,))
+        mysql.connection.commit()
+        flash('Médico eliminado correctamente')
+        return redirect(url_for('administrar_medicos'))
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error al eliminar el médico: ' + str(e))
+        return redirect(url_for('administrar_medicos'))
+    finally:
+        cursor.close()
 
 #CRUD DE PACIENTES
-
 '''
 #Ruta de consulta de pacientes
 
@@ -211,24 +330,9 @@ def guardarPacienteActualizado():
 def citas():
     return render_template('consultar_citas.html')
 
-
-
-@app.route('/agregar_medico', methods=['GET', 'POST'])
-def agregar_medico():
-    return render_template('agregar_medico.html')
-
-@app.route('/administrar_medicos')
-def administrar_medicos():
-    return render_template('administrar_medicos.html')
-@app.route('/editar_medico/<rfc>', methods=['GET', 'POST'])
-def editar_medico(rfc):
-    # Por ahora solo mostramos un mensaje
-    return f"Editar médico con RFC: {rfc}" 
-
-@app.route('/eliminar_medico/<rfc>')
-def eliminar_medico(rfc):
-    # Por ahora solo mostramos un mensaje
-    return f"Eliminar médico con RFC: {rfc}"
+@app.route('/exploracion_diagnostico')
+def expDiag():
+    return render_template('cita_exploracion_diagnostico.html')
 
 #Fin del apartado para añadir rutas
 
