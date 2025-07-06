@@ -132,7 +132,7 @@
 
         <ul class="nav-links">
 
-            <li><a href="/cdp">Pacientes</a></li>
+            <li><a href="/consultar_pacientes">Pacientes</a></li>
             <li><a href="/consultar_citas">Citas</a></li>
 
         </ul>
@@ -143,53 +143,101 @@
         
         <h2>Ingresa los datos del nuevo paciente</h2>
         
-        <div class="form-section">
-            <div class="form-row">
-                <div class="form-label">Médico que atiende</div>
-                <input type="text" class="form-input">
+        <form action="/registrar_pacientes">
+            <div class="form-section">
+
+                <div class="form-row">
+                    <div class="form-label">ID de Médico</div>
+                    <input type="text" class="form-input" name="medico_atiende">
+                </div>
+
+                {% if errores and errores.medico_atiende%}
+
+                <p style="color: red">{{errores.medico_atiende}}</p>
+                
+                {% endif %}
+                
+                
+                <div class="form-row">
+                    <div class="form-label">Nombre Completo del Paciente</div>
+                    <input type="text" class="form-input" name="paciente">
+                </div>
+
+                {% if errores and errores.paciente%}
+
+                <p style="color: red">{{errores.paciente}}</p>
+                
+                {% endif %}
+                
+                <div class="form-row">
+                    <div class="form-label">Fecha de Nacimiento</div>
+                    <input type="date" class="form-input" name="fecha_nacimiento">
+                </div>
+
+                {% if errores and errores.fecha_nacimiento%}
+
+                <p style="color: red">{{errores.fecha_nacimiento}}</p>
+                
+                {% endif %}
+                
+                <div class="form-row">
+                    <div class="form-label">Enfermedades Crónicas</div>
+                    <input type="text" class="form-input" name="enfermedades_cronicas">
+                </div>
+
+                {% if errores and errores.enfermedades_cronicas%}
+
+                <p style="color: red">{{errores.enfermedades_cronicas}}</p>
+                
+                {% endif %}
+                
+                <div class="operation-text">Opcional</div>
+                
+                <div class="form-row">
+                    <div class="form-label">Alergias</div>
+                    <input type="text" class="form-input" name="alergias">
+                </div>
+
+                {% if errores and errores.alergias%}
+
+                <p style="color: red">{{errores.alergias}}</p>
+                
+                {% endif %}
+                
+                <div class="operation-text">Opcional</div>
+                
+                <div class="form-row">
+                    <div class="form-label">Antecedentes Familiares</div>
+                    <input type="text" class="form-input" name="antecedentes">
+                </div>
+
+                {% if errores and errores.antecedentes%}
+
+                <p style="color: red">{{errores.antecedentes}}</p>
+                
+                {% endif %}
+
+                <div class="separator"></div>
+
+                {%with mensajes =  get_flashed_messages()%}
+
+                    {% if mensajes%}
+
+                        {% for msj in mensajes%}
+                            <h4 style="color: blue">{{msj}}</h4>
+                        {%endfor%}
+                    {% endif %}
+                {%endwith%}
+
+                <div class="separator"></div>
+                
+                <div class="button-group">
+                    <button class="btn btn-clear">Limpiar</button>
+                    <button class="btn btn-register" type="submit">Registrar Expediente</button>
+                </div>
             </div>
-            
-            <div class="form-row">
-                <div class="form-label">Nombre Médico</div>
-                <input type="text" class="form-input">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-label">Nombre Completo del Paciente</div>
-                <input type="text" class="form-input">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-label">Fecha de Nacimiento</div>
-                <input type="date" class="form-input">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-label">Enfermedades Crónicas</div>
-                <input type="text" class="form-input">
-            </div>
-            
-            <div class="operation-text">Opcional</div>
-            
-            <div class="form-row">
-                <div class="form-label">Alergias</div>
-                <input type="text" class="form-input">
-            </div>
-            
-            <div class="operation-text">Opcional</div>
-            
-            <div class="form-row">
-                <div class="form-label">Antecedentes Familiares</div>
-                <input type="text" class="form-input">
-            </div>
-            
-        <div class="separator"></div>
+        </form>   
         
-        <div class="button-group">
-            <button class="btn btn-clear">Limpiar</button>
-            <button class="btn btn-register">Registrar Expediente</button>
-        </div>
-    </div>
 
     <script>
         // Funcionalidad para el botón Limpiar

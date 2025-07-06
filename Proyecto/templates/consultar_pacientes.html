@@ -119,7 +119,7 @@
             background-color: #beffdc;
         }
 
-         nav{
+        nav{
 
             display: flex;
             justify-content: space-between;
@@ -156,7 +156,7 @@
 
         <ul class="nav-links">
 
-            <li><a href="/cdp">Pacientes</a></li>
+            <li><a href="/consultar_pacientes">Pacientes</a></li>
             <li><a href="/consultar_citas">Citas</a></li>
 
         </ul>
@@ -164,24 +164,60 @@
 
     <div class="izquierda">
         <h1>Modificar Expediente</h1>
-        <form>
-            <label for="medicoAtiende">Medico que atiende:</label>
-            <input type="text" id="medicoAtiende" name="medicoAtiende" placeholder="Ingrese el nombre del medico">
+        <form action="/modificacion_paciente">
+            <label for="medicoAtiende">ID del Médico:</label>
+            <input type="text" id="medicoAtiende" name="medico_atiende" placeholder="Ingrese el ID del medico" value="{{paciente.2}}">
+
+            {% if errores and errores.medico_atiende%}
+
+                <p style="color: red">{{errores.medico_atiende}}</p>
+                
+            {% endif %}
             
             <label for="nombrePaciente">Nombre Completo del Paciente:</label>
-            <input type="text" id="nombrePaciente" name="nombrePaciente" placeholder="Ingrese el nombre completo">
+            <input type="text" id="nombrePaciente" name="paciente" placeholder="Ingrese el nombre completo" value="{{paciente.3}}">
+
+            {% if errores and errores.paciente%}
+
+                <p style="color: red">{{errores.paciente}}</p>
+                
+            {% endif %}
 
             <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-            <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+            <input type="date" id="fechaNacimiento" name="fecha_nacimiento" value="{{paciente.4}}">
+
+            {% if errores and errores.fecha_nacimiento%}
+
+                <p style="color: red">{{errores.fecha_nacimiento}}</p>
+                
+            {% endif %}
 
             <label for="enfermedades">Enfermedades Crónicas:</label>
-            <input type="text" id="enfermedades" name="enfermedades" placeholder="Enfermedades crónicas">
+            <input type="text" id="enfermedades" name="enfermedades_cronicas" placeholder="Enfermedades crónicas" value="{{paciente.5}}">
+
+            {% if errores and errores.enfermedades_cronicas%}
+
+                <p style="color: red">{{errores.enfermedades_cronicas}}</p>
+                
+            {% endif %}
 
             <label for="alergias">Alergias:</label>
-            <input type="text" id="alergias" name="alergias" placeholder="Alergias">
+            <input type="text" id="alergias" name="alergias" placeholder="Alergias" value="{{paciente.6}}">
+
+            {% if errores and errores.alergias%}
+
+                <p style="color: red">{{errores.alergias}}</p>
+                
+            {% endif %}
 
             <label for="antecedentes">Antecedentes Familiares:</label>
-            <input type="text" id="antecedentes" name="antecedentes" placeholder="Antecedentes familiares">
+            <input type="text" id="antecedentes" name="antecedentes" placeholder="Antecedentes familiares" value="{{paciente.7}}">
+
+            {% if errores and errores.antecedentes%}
+
+                <p style="color: red">{{errores.antecedentes}}</p>
+                
+            {% endif %}
 
             <div class="acciones-formulario">
                 <button type="reset">Limpiar</button>
@@ -199,21 +235,33 @@
         </div>
 
         <div class="lista-pacientes">
-            <div class="tarjeta-paciente">
-                <p>Emiliano Jimenez</p>
-                <p>Folio: 122876364</p>
-            </div>
-            <div class="tarjeta-paciente">
-                <p>Andres Badillo</p>
-                <p>Folio: 123857465</p>
-            </div>
-            <div class="tarjeta-paciente">
-                <p>Miguel Martinez</p>
-                <p>Folio: 123957483</p>
-            </div>
+            <table border="1" cellpadding="10" cellspacing="0">
+                <thead>
+                    <tr>
+                    <th>Nombre del Paciente</th>
+                    <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                    <tr>
+
+                    <td>{{paciente.3}}</td>
+                    
+                    <td>
+                        <button><a href="/actualizar_paciente/{{paciente.1}}">Modificar</a></button>
+                        <button>Eliminar</button>
+                    </td>
+
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+
         </div>
+        
         <div class ="acciones-formulario">
-            <button onclick="window.location.href='/registrar-paciente'">Registrar Nuevo Paciente</button>
+            <button onclick="window.location.href='/registrar_pacientes'">Registrar Nuevo Paciente</button>
         </div>
     </div>
 
