@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = "localhost"
 app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] =
-app.config['MYSQL_DB'] =
+app.config['MYSQL_PASSWORD'] = "Kesadilla94"
+app.config['MYSQL_DB'] = "proyecto_medico"
 #app.config['MYSQL_PORT'] = 3306
 app.secret_key ='mysecretkey'
 
@@ -178,8 +178,12 @@ def eliminar_medico(rfc):
     finally:
         cursor.close()
 
+
+
+
+
 #CRUD DE PACIENTES
-'''
+
 #Ruta de consulta de pacientes
 
 @app.route('/consultar_pacientes') 
@@ -189,8 +193,8 @@ def pacientes():
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('select * from expediente_pacientes where state = 1')
-        consultaTodo = cursor.fetchall()
-        return render_template('consultar_pacientes.html', errores={}, pacientes = consultaTodo)
+        pacientes = cursor.fetchall()
+        return render_template('consultar_pacientes.html', errores={}, pacientes = pacientes)
         
     except Exception as e:
         print('Error al consultar todo: ' + e)
@@ -200,13 +204,22 @@ def pacientes():
         cursor.close()
         
 
-#Ruta para regitsrar pacientes    
-@app.route('/registrar_pacientes', methods=['POST'])
+#Ruta para regitsrar pacientes  
+
+@app.route('/registrar_paciente')
+def vistaRegistroPaciente():
+    return render_template('registrar_pacientes.html')
+
+
+@app.route('/registrar_pacientes', methods = ['POST'])
 def registrarPaciente():
+    
     #lista de errores
+    
     errores = {}
     
     #Obtener los datos a insertar
+    
     medico = request.form.get('medico_atiende', '').strip()
     paciente = request.form.get('paciente', '')
     fecha = request.form.get('fecha_nacimiento', '')
@@ -234,6 +247,7 @@ def registrarPaciente():
         
         
     if not errores:
+        
     #Intentamos ejecutar el INSERT
     
         try:
@@ -241,12 +255,12 @@ def registrarPaciente():
             cursor.execute('insert into expediente_pacientes(id_medico, nombre, fecha_nacimiento, enfermedades_cronicas, alergias, antecedentes_familiares) values(%s, %s, %s, %s, %s, %s)', (medico, paciente, fecha, enfermedades, alergias, antecedentes))
             mysql.connection.commit()
             flash('Paciente registrado exitosamente')
-            return redirect(url_for('registrarPacientes'))
+            return redirect(url_for('pacientes'))
             
         except Exception as e:
             mysql.connection.rollback()
             flash( f'Algo falló al guardar los datos del paciente: {str(e)}')
-            return redirect(url_for('resgistrarPacientes'))
+            return redirect(url_for('vistaRegistroPaciente'))
             
         finally:
             
@@ -254,77 +268,124 @@ def registrarPaciente():
     
     return render_template('registrar_pacientes.html', errores = errores)
 
-#Ruta de actualizar pacientes
+
+
+
+
 @app.route('/actualizar_paciente/<int:id>')
 def consulta_actualizar(id):
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('select * from expediente_pacientes where id_paciente = %s', (id,))
         paciente = cursor.fetchone()
-        return render_template('consultar_pacientes.html', paciente=paciente)
         
+        
+        if paciente:
+            cursor.execute('select * from expediente_pacientes where state = 1')
+            consultaTodo = cursor.fetchall()
+            return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores={})
+        else:
+            flash('Paciente no encontrado')
+            return redirect(url_for('pacientes'))
+            
     except Exception as e:
-        print('Error al consultar todo: ' + e)
-        return render_template('update.html', errores={}, pacientes = {})
+        print('Error al consultar paciente: ' + str(e))
+        flash('Error al consultar paciente')
+        return redirect(url_for('pacientes'))
         
     finally:
         cursor.close()
-        
-    
+
+
 @app.route('/modificacion_paciente', methods=['POST'])
 def guardarPacienteActualizado():
-    #lista de errores
+    # Lista de errores
     errores = {}
     
-    #Obtener los datos a insertar
-    medico = request.form.get('medico_atiende', '').strip()
-    paciente = request.form.get('paciente', '')
-    fecha = request.form.get('fecha_nacimiento', '')
-    enfermedades = request.form.get('enfermedades_cronicas', '')
-    alergias = request.form.get('alergias', '')
-    antecedentes = request.form.get('antecedentes', '')
+    # Obtener los datos a modificar
+    idUpdatePaciente = request.form.get('id_paciente', '').strip() 
+    nMedico = request.form.get('n_medico_atiende', '').strip()
+    nPaciente = request.form.get('n_paciente', '')
+    nFecha = request.form.get('n_fecha_nacimiento', '').strip()
+    nEnfermedades = request.form.get('n_enfermedades_cronicas', '')
+    nAlergias = request.form.get('n_alergias', '')
+    nAntecedentes = request.form.get('n_antecedentes', '')
     
-    if not medico:
-        errores['medico_atiende'] = 'ID del médico obligatorio'
+    # Validaciones
+    if not idUpdatePaciente:
+        errores['id_paciente'] = 'ID del paciente es requerido'
         
-    if not paciente:
-        errores['paciente'] = 'Nombre del paciente obligatorio'
+    if not nMedico:
+        errores['n_medico_atiende'] = 'ID del médico obligatorio'
         
-    if not fecha:
-        errores['fecha_nacimiento'] = 'fecha de nacimiento obligatoria'
+    if not nPaciente:
+        errores['n_paciente'] = 'Nombre del paciente obligatorio'
         
-    if not enfermedades:
-        errores['enfermedades_cronicas'] = 'En caso de no tener enfermedades crónicas indicar "Ninguna"'
+    if not nFecha:
+        errores['n_fecha_nacimiento'] = 'Fecha de nacimiento obligatoria'
         
-    if not alergias:
-        errores['alergias'] = 'En caso de no tener alergias indicar "Ninguna"'
+    if not nEnfermedades:
+        errores['n_enfermedades_cronicas'] = 'En caso de no tener enfermedades crónicas indicar "Ninguna"'
         
-    elif not antecedentes:
-        errores['antecedentes'] = 'En caso de no tener antecedentes familiares indicar "Ninguno"'
+    if not nAlergias:
+        errores['n_alergias'] = 'En caso de no tener alergias indicar "Ninguna"'
         
+    if not nAntecedentes:  
+        errores['n_antecedentes'] = 'En caso de no tener antecedentes familiares indicar "Ninguno"'
         
     if not errores:
-    #Intentamos ejecutar el UPDATE
-    
+        
+        # Intentamos ejecutar el UPDATE
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute('update expediente_pacientes set id_medico = %s, nombre = %s, fecha_nacimiento = %s, enfermedades_cronicas = %s, alergias = %s, antecedentes_familiares = %s', (medico, paciente, fecha, enfermedades, alergias, antecedentes))
+            cursor.execute('''UPDATE expediente_pacientes 
+                            SET id_medico = %s, nombre = %s, fecha_nacimiento = %s, 
+                            enfermedades_cronicas = %s, alergias = %s, antecedentes_familiares = %s 
+                            WHERE id_paciente = %s''', 
+                            (nMedico, nPaciente, nFecha, nEnfermedades, nAlergias, nAntecedentes, idUpdatePaciente))
             mysql.connection.commit()
             flash('Paciente actualizado exitosamente')
             return redirect(url_for('pacientes'))
             
         except Exception as e:
             mysql.connection.rollback()
-            flash( f'Algo falló al guardar los datos del paciente: {str(e)}')
+            flash(f'Algo falló al guardar los datos del paciente: {str(e)}')
             return redirect(url_for('pacientes'))
             
         finally:
-            
             cursor.close()
-    
-    return render_template('consultar_pacientes.html', paciente = (medico, paciente, fecha, enfermedades, alergias, antecedentes), errores = errores )
 
-    '''
+    
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('select * from expediente_pacientes where state = 1')
+        consultaTodo = cursor.fetchall()
+        paciente = (idUpdatePaciente, nMedico, nPaciente, nFecha, nEnfermedades, nAlergias, nAntecedentes)
+        return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores=errores)
+    except Exception as e:
+        print('Error al consultar pacientes: ' + str(e))
+        return redirect(url_for('pacientes'))
+    finally:
+        cursor.close()    
+        
+        
+        
+# Ruta para eliminar paciente
+@app.route('/eliminar_paciente/<int:id>', methods=['POST'])
+def eliminar_paciente(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('UPDATE expediente_pacientes SET state = 0 WHERE id_paciente = %s', (id,))
+        mysql.connection.commit()
+        flash('Paciente eliminado correctamente')
+        return redirect(url_for('pacientes'))
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error al eliminar el paciente: ' + str(e))
+        return redirect(url_for('pacientes'))
+    finally:
+        cursor.close()
+
 
 @app.route('/consultar_citas')
 def citas():
