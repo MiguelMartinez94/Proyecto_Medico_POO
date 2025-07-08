@@ -15,20 +15,29 @@
         
         body {
             background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0;
             padding: 20px;
+            min-height: 100vh;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
         }
 
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px;
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
         }
 
         h1 {
@@ -205,7 +214,22 @@
         }
     </style>
 </head>
+
+    
+
 <body>
+
+<nav>
+
+        <ul class="nav-links">
+
+            <li><a href="/administrar_medicos">Médicos</a></li>
+            <li><a href="/consultar_pacientes">Pacientes</a></li>
+            <li><a href="/consultar_citas">Citas</a></li>
+            
+        </ul>
+    </nav>
+
     <div class="container">
         <h1><i class="fas fa-user-md"></i> Registrar Nuevo Médico</h1>
         
@@ -218,7 +242,12 @@
                         <label for="nombre">Nombre Completo <span class="required">*</span></label>
                         <div class="input-container">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez López" required>
+                            <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez López"  value="{{request.form.nombre}}">
+
+                            {% if errores and errores.nombre %}
+                                <p style="color: red">{{errores.nombre}}</p>
+                            {% endif %}
+
                         </div>
                     </div>
                     
@@ -226,7 +255,12 @@
                         <label for="rfc">RFC <span class="required">*</span></label>
                         <div class="input-container">
                             <i class="fas fa-id-card"></i>
-                            <input type="text" id="rfc" name="rfc" placeholder="ABC123456XYZ" required>
+                            <input type="text" id="rfc" name="rfc" placeholder="ABC123456XYZ"  value="{{request.form.rfc}}">
+
+                            {% if errores and errores.rfc %}
+                                <p style="color: red">{{errores.rfc}}</p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -236,15 +270,25 @@
                         <label for="correo">Correo Electrónico <span class="required">*</span></label>
                         <div class="input-container">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="correo" name="correo" placeholder="juan.perez@ejemplo.com" required>
+                            <input type="email" id="correo" name="correo" placeholder="juan.perez@ejemplo.com" value="{{request.form.correo}}">
+
+                            {% if errores and errores.correo %}
+                                <p style="color: red">{{errores.correo}}</p>
+                            {% endif %}
+
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="cedula">Cédula Profesional <span class="required">*</span></label>
+                        <label for="cedula">Cédula Profesional <span class="">*</span></label>
                         <div class="input-container">
                             <i class="fas fa-id-badge"></i>
-                            <input type="text" id="cedula" name="cedula" placeholder="12345678" required>
+                            <input type="text" id="cedula" name="cedula" placeholder="12345678" value="{{request.form.cedula}}"  >
+
+                            {% if errores and errores.cedula %}
+                                <p style="color: red">{{errores.cedula}}</p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -253,26 +297,32 @@
             <div class="form-section">
                 <h2><i class="fas fa-lock"></i> Seguridad</h2>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="password">Contraseña <span class="required">*</span></label>
-                        <div class="input-container password-container">
-                            <i class="fas fa-key"></i>
-                            <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
-                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
-                        </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Contraseña <span class="required">*</span></label>
+                    <div class="input-container password-container">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" value="{{request.form.password}}">
+
+                        {% if errores and errores.password %}
+                            <p style="color: red">{{errores.password}}</p>
+                        {% endif %}
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirmar Contraseña <span class="required">*</span></label>
-                        <div class="input-container password-container">
-                            <i class="fas fa-key"></i>
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita su contraseña" required>
-                            <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
-                        </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña <span class="required">*</span></label>
+                    <div class="input-container password-container">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita su contraseña" value="{{request.form.confirmPassword}}">
+
+                        {% if errores and errores.confirmPassword %}
+                            <p style="color: red">{{errores.rol}}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+
             
             <div class="form-section">
                 <h2><i class="fas fa-user-tag"></i> Rol en el Sistema</h2>
@@ -281,12 +331,16 @@
                     <label for="rol">Rol en el Sistema <span class="required">*</span></label>
                     <div class="input-container">
                         <i class="fas fa-user-tag"></i>
-                        <select id="rol" name="rol" required>
+                        <select id="rol" name="rol" >
                             <option value="" disabled selected>Seleccione un rol</option>
                             <option value="medico">Médico General</option>
                             <option value="medico_admin">Médico Administrador</option>
                             <option value="especialista">Médico Especialista</option>
                         </select>
+
+                        {% if errores and errores.rol %}
+                            <p style="color: red">{{errores.rol}}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -295,6 +349,17 @@
                 <i class="fas fa-save"></i> Registrar Médico
             </button>
         </form>
+
+
+                {%with mensajes =  get_flashed_messages()%}
+
+                    {% if mensajes%}
+
+                        {% for msj in mensajes%}
+                            <h4 style="color: blue">{{msj}}</h4>
+                        {%endfor%}
+                    {% endif %}
+                {%endwith%}
         
             <div class="form-footer">
                 <a href="/administrar_medicos" class="btn btn-back">

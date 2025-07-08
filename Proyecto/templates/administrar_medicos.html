@@ -20,6 +20,37 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            margin: auto 0;
+        }
+
+        nav{
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #f4f4f4;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 2px;
         }
 
         .container {
@@ -355,8 +386,24 @@
             }
         }
     </style>
+
+    <nav>
+
+        <ul class="nav-links">
+
+            <li><a href="/administrar_medicos">Médicos</a></li>
+            <li><a href="/consultar_pacientes">Pacientes</a></li>
+            <li><a href="/consultar_citas">Citas</a></li>
+            
+        </ul>
+    </nav>
+
 </head>
+
 <body>
+
+    
+
     <div class="container">
         <div class="header">
             <h1><i class="fas fa-user-md"></i> Administrar Médicos</h1>
@@ -365,6 +412,16 @@
                 <button class="btn btn-search"><i class="fas fa-search"></i></button>
             </div>
         </div>
+
+                {%with mensajes =  get_flashed_messages()%}
+
+                    {% if mensajes%}
+
+                        {% for msj in mensajes%}
+                            <h4 style="color: blue">{{msj}}</h4>
+                        {%endfor%}
+                    {% endif %}
+                {%endwith%}
 
         <table>
             <thead>
