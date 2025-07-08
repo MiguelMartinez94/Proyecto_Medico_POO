@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, request, url_for, flash, redi
 from flask_mysqldb import MySQL
 import MySQLdb
 
-#Aqui se añaden los app
+
 
 app = Flask(__name__)
 
@@ -394,6 +394,10 @@ def citas():
 @app.route('/exploracion_diagnostico')
 def expDiag():
     return render_template('cita_exploracion_diagnostico.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 #Fin del apartado para añadir rutas
 
