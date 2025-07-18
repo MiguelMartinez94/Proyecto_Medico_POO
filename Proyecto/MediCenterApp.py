@@ -194,7 +194,7 @@ def pacientes():
         cursor = mysql.connection.cursor()
         cursor.execute('select * from expediente_pacientes where state = 1')
         pacientes = cursor.fetchall()
-        return render_template('consultar_pacientes.html', errores={}, pacientes = pacientes)
+        return render_template('consultar_pacientes.html', errores={}, pacientes= pacientes)
         
     except Exception as e:
         print('Error al consultar todo: ' + e)
