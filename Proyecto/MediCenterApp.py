@@ -192,7 +192,7 @@ def pacientes():
     
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('select * from expediente_pacientes where state = 1')
+        cursor.execute('select * from expediente_pacientes where estado = 1')
         pacientes = cursor.fetchall()
         return render_template('consultar_pacientes.html', errores={}, pacientes= pacientes)
         
@@ -281,7 +281,7 @@ def consulta_actualizar(id):
         
         
         if paciente:
-            cursor.execute('select * from expediente_pacientes where state = 1')
+            cursor.execute('select * from expediente_pacientes where estado = 1')
             consultaTodo = cursor.fetchall()
             return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores={})
         else:
@@ -358,7 +358,7 @@ def guardarPacienteActualizado():
     
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('select * from expediente_pacientes where state = 1')
+        cursor.execute('select * from expediente_pacientes where estado = 1')
         consultaTodo = cursor.fetchall()
         paciente = (idUpdatePaciente, nMedico, nPaciente, nFecha, nEnfermedades, nAlergias, nAntecedentes)
         return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores=errores)
@@ -375,7 +375,7 @@ def guardarPacienteActualizado():
 def eliminar_paciente(id):
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('UPDATE expediente_pacientes SET state = 0 WHERE id_paciente = %s', (id,))
+        cursor.execute('UPDATE expediente_pacientes SET estado = 0 WHERE id_paciente = %s', (id,))
         mysql.connection.commit()
         flash('Paciente eliminado correctamente')
         return redirect(url_for('pacientes'))

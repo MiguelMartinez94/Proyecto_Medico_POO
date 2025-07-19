@@ -1,292 +1,162 @@
-<!-- cdp es Consulta de Pacientes -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCenter - CDP</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-
-
-        .izquierda, .derecha {
-            width: 45%;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            margin-top: 20px;;
-        }
-
-        .izquierda {
-            margin-left: 20px;
-        }
-
-        .derecha {
-            margin-right: 20px;
-        }
-
-        h1 {
-            font-size: 2em;
-            color: #333;
-            text-align: center;
-        }
-
-        h3 {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        input[type="text"], input[type="date"], input[type="checkbox"] {
-            width: 95%;
-            padding: 10px;
-            margin: 10px 0;
-            display: block;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-        }
-
-        .lista-pacientes {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 10px 0;
-        }
-
-        .tarjeta-paciente {
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-
-        .tarjeta-paciente p {
-            margin: 0;
-        }
-
-        .acciones-formulario {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .acciones-formulario button {
-            padding: 10px 20px;
-            background-color: #e4e4e4;
-            color: #000000;
-            border: 1px solid #000000;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .acciones-formulario button:hover {
-            background-color: #beffdc;
-        }
-
-        .barra-busqueda {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .barra-busqueda input[type="text"] {
-            width: 70%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-        }
-
-        .barra-busqueda button {
-            padding: 10px;
-            background-color: #e4e4e4;
-            color: #000000;
-            border: 1px solid #000000;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .barra-busqueda button:hover {
-            background-color: #beffdc;
-        }
-
-        nav{
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #f4f4f4;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #000;
-            font-weight: 500;
-            position: relative;
-            padding-bottom: 2px;
-        }
-    </style>
-
-
+    <title>Consultar Pacientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-    <nav>
-
-        <ul class="nav-links">
-
-            <li><a href="/administrar_medicos">Médicos</a></li>
-            <li><a href="/consultar_pacientes">Pacientes</a></li>
-            <li><a href="/consultar_citas">Citas</a></li>
-            
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top border-bottom">
+        <div class="container-fluid">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/administrar_medicos">Médicos</a></li>
+                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/consultar_pacientes">Pacientes</a></li>
+                
+                <li class="nav-item"><a class="nav-link fw-medium text-dark" href="/consultar_citas">Citas</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium text-dark" href="/exploracion_diagnostico">Exploración</a></li>
+            </ul>
+        </div>
     </nav>
 
-    
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card border-2 rounded-4 h-100">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Modificar Expediente</h1>
+                        
+                        {% if paciente %}
+                        <form action="/modificacion_paciente" method="post">
+                            <input type="hidden" name="id_paciente" value="{{paciente[0]}}">
 
-<div class="izquierda">
-    <h1>Modificar Expediente</h1>
-    {% if paciente %}
-    <form action="/modificacion_paciente" method="post">
-        <input type="hidden" name="id_paciente" value="{{paciente[0]}}">
+                            <div class="mb-2">
+                                <label class="form-label">ID del Médico:</label>
+                                <input type="text" class="form-control" name="n_medico_atiende" placeholder="Ingrese el ID del medico" value="{{paciente[1] if paciente[1] else ''}}">
+                                {% if errores and errores.n_medico_atiende %}
+                                    <p style="color: red">{{errores.n_medico_atiende}}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label class="form-label">Nombre Completo del Paciente:</label>
+                                <input type="text" class="form-control" name="n_paciente" placeholder="Ingrese el nombre completo" value="{{paciente[2] if paciente[2] else ''}}">
+                                {% if errores and errores.n_paciente %}
+                                    <p style="color: red">{{errores.n_paciente}}</p>
+                                {% endif %}
+                            </div>
 
-        <label for="medicoAtiende">ID del Médico:</label>
-        <input type="text" name="n_medico_atiende" placeholder="Ingrese el ID del medico" value="{{paciente[1] if paciente[1] else ''}}">
+                            <div class="mb-2">
+                                <label class="form-label">Fecha de Nacimiento:</label>
+                                <input type="date" class="form-control" name="n_fecha_nacimiento" value="{{paciente[3] if paciente[3] else ''}}">
+                                {% if errores and errores.n_fecha_nacimiento %}
+                                    <p style="color: red">{{errores.n_fecha_nacimiento}}</p>
+                                {% endif %}
+                            </div>
 
-        {% if errores and errores.n_medico_atiende %}
-            <p style="color: red">{{errores.n_medico_atiende}}</p>
-        {% endif %}
-        
-        <label for="nombrePaciente">Nombre Completo del Paciente:</label>
-        <input type="text" name="n_paciente" placeholder="Ingrese el nombre completo" value="{{paciente[2] if paciente[2] else ''}}">
+                            <div class="mb-2">
+                                <label class="form-label">Enfermedades Crónicas:</label>
+                                <input type="text" class="form-control" name="n_enfermedades_cronicas" placeholder="Enfermedades crónicas" value="{{paciente[4] if paciente[4] else ''}}">
+                                {% if errores and errores.n_enfermedades_cronicas %}
+                                    <p style="color: red">{{errores.n_enfermedades_cronicas}}</p>
+                                {% endif %}
+                            </div>
 
-        {% if errores and errores.n_paciente %}
-            <p style="color: red">{{errores.n_paciente}}</p>
-        {% endif %}
+                            <div class="mb-2">
+                                <label class="form-label">Alergias:</label>
+                                <input type="text" class="form-control" name="n_alergias" placeholder="Alergias" value="{{paciente[5] if paciente[5] else ''}}">
+                                {% if errores and errores.n_alergias %}
+                                    <p style="color: red">{{errores.n_alergias}}</p>
+                                {% endif %}
+                            </div>
 
-        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-        <input type="date" name="n_fecha_nacimiento" value="{{paciente[3] if paciente[3] else ''}}">
+                            <div class="mb-2">
+                                <label class="form-label">Antecedentes Familiares:</label>
+                                <input type="text" class="form-control" name="n_antecedentes" placeholder="Antecedentes familiares" value="{{paciente[6] if paciente[6] else ''}}">
+                                {% if errores and errores.n_antecedentes %}
+                                    <p style="color: red">{{errores.n_antecedentes}}</p>
+                                {% endif %}
+                            </div>
 
-        {% if errores and errores.n_fecha_nacimiento %}
-            <p style="color: red">{{errores.n_fecha_nacimiento}}</p>
-        {% endif %}
-
-        <label for="enfermedades">Enfermedades Crónicas:</label>
-        <input type="text" name="n_enfermedades_cronicas" placeholder="Enfermedades crónicas" value="{{paciente[4] if paciente[4] else ''}}">
-
-        {% if errores and errores.n_enfermedades_cronicas %}
-            <p style="color: red">{{errores.n_enfermedades_cronicas}}</p>
-        {% endif %}
-
-        <label for="alergias">Alergias:</label>
-        <input type="text" name="n_alergias" placeholder="Alergias" value="{{paciente[5] if paciente[5] else ''}}">
-
-        {% if errores and errores.n_alergias %}
-            <p style="color: red">{{errores.n_alergias}}</p>
-        {% endif %}
-
-        <label for="antecedentes">Antecedentes Familiares:</label>
-        <input type="text" name="n_antecedentes" placeholder="Antecedentes familiares" value="{{paciente[6] if paciente[6] else ''}}">
-
-        {% if errores and errores.n_antecedentes %}
-            <p style="color: red">{{errores.n_antecedentes}}</p>
-        {% endif %}
-
-        <div class="acciones-formulario">
-            <button type="reset">Limpiar</button>
-            <button type="submit">Actualizar Expediente</button>
-        </div>
-    </form>
-    {% else %}
-    <p>Seleccione un paciente para modificar</p>
-    {% endif %}
-</div>
-
-    <div class="derecha">
-        <h1>Pacientes Actuales</h1>
-
-        <div class="barra-busqueda">
-            <input type="text" placeholder="Buscar paciente...">
-            <button>Buscar</button>
-        </div>
-
-                {%with mensajes =  get_flashed_messages()%}
-
-                    {% if mensajes%}
-
-                        {% for msj in mensajes%}
-                            <h4 style="color: blue">{{msj}}</h4>
-                        {%endfor%}
-                    {% endif %}
-                {%endwith%}
-
-        <div class="lista-pacientes">
-            <table border="1" cellpadding="10" cellspacing="0">
-                <thead>
-                    <tr>
-                    <th>Nombre del Paciente</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Enfermedades Crónicas</th>
-                    <th>Alergias</th>
-                    <th>Antecedentes Familiares</th>
-                    <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for paciente in pacientes %}
-                    <tr>
-
-                    <td>{{paciente.2}}</td>
-                    <td>{{paciente.3}}</td>
-                    <td>{{paciente.4}}</td>
-                    <td>{{paciente.5}}</td>
-                    <td>{{paciente.6}}</td>
-                    <td>{{paciente.7}}</td>
-                    <td>
-                        <form action="/actualizar_paciente/{{paciente.0}}">
-                        <button type="submit">Modificar</button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="reset" class="btn btn-outline-dark btn-sm">Limpiar</button>
+                                <button type="submit" class="btn btn-dark btn-sm">Actualizar Expediente</button>
+                            </div>
                         </form>
+                        {% else %}
+                        <p class="text-center">Seleccione un paciente para modificar</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-                        <form action="/eliminar_paciente/{{paciente.0}}" method="post">
-                        <button type="submit">Eliminar</button>
-                        </form>    
-                    </td>
+            <div class="col-md-6 mb-4">
+                <div class="card border-2 rounded-4 h-100">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Pacientes Actuales</h1>
 
-                    </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
+                        <div class="d-flex justify-content-end mb-3">
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Buscar paciente...">
+                                <button class="btn btn-outline-dark btn-sm">Buscar</button>
+                            </div>
+                        </div>
 
-        </div>
-        
-        <div class ="acciones-formulario">
-            <button><a href="/registrar_paciente">Resgitrar Nuevo Paciente</a></button>
+                        {%with mensajes =  get_flashed_messages()%}
+                            {% if mensajes%}
+                                {% for msj in mensajes%}
+                                    <div class="alert alert-primary text-center mb-3">{{msj}}</div>
+                                {%endfor%}
+                            {% endif %}
+                        {%endwith%}
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Nombre del Paciente</th>
+                                        <th>Fecha de Nacimiento</th>
+                                        <th>Enfermedades Crónicas</th>
+                                        <th>Alergias</th>
+                                        <th>Antecedentes Familiares</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for paciente in pacientes %}
+                                    <tr>
+                                        <td>{{paciente.2}}</td>
+                                        <td>{{paciente.3}}</td>
+                                        <td>{{paciente.4}}</td>
+                                        <td>{{paciente.5}}</td>
+                                        <td>{{paciente.6}}</td>
+                                        <td>
+                                            <form action="/actualizar_paciente/{{paciente.0}}" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-dark btn-sm mb-1 w-100">Modificar</button>
+                                            </form>
+
+                                            <form action="/eliminar_paciente/{{paciente.0}}" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-dark btn-sm w-100">Eliminar</button>
+                                            </form>    
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-dark btn-sm">
+                                <a href="/registrar_paciente" class="text-decoration-none text-white">Registrar Nuevo Paciente</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

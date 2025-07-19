@@ -4,298 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exploración y Diagnóstico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <style>
-
-        body{
-
-            margin: 0;
-            padding: 0;
-            max-width: 100%;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-
-        }
-
-        nav{
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #f4f4f4;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #000;
-            font-weight: 500;
-            position: relative;
-            padding-bottom: 2px;
-        }
-
-
-
-
-
-        .contenedor_general{
-
-            display: flex;
-            flex-direction: row;
-            border: 2px solid #000;
-            gap: 10vh;
-            padding: 5rem;
-            justify-content: center;
-            width: 70%;
-            margin: 0 auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            background-color: #fff;
-        }
-
-        .botones{
-
-            text-align: center;
-            color: #000000;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .botones button{
-            text-align: center;
-            margin: 2rem;
-            padding: 10px 20px;
-            color: #000000;
-            border-radius: 5px;
-            cursor: pointer;
-
-        }
-
-        .botones button:hover{
-
-            background-color: #beffdc;
-        }
-
-
-
-        .datos_exploracion{
-            display: flex;
-            flex-direction: column;
-            border: 2px solid #000;
-            gap: 0.7rem;
-            padding: 2rem;
-
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            background-color: #fff;
-
-        }
-
-        .diagnostico_paciente{
-            display: flex;
-            flex-direction: column;
-            border: 2px solid #000;
-            gap: 0.7rem;
-            padding: 2rem;
-
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            background-color: #fff;
-        }
-
-        p{
-            text-align: justify;
-        }
-
-        .perfil{
-            border: 2px solid #000;
-            height: 250px;
-            width: 200px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 2rem;
-            padding: 1rem;
-
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-
-            background-color: #fff;
-            
-        }
-
-        .perfil img{
-            width: 50%;
-            height: auto;
-            display: block;
-        }
-
-        h2{
-
-            text-align: center;
-        }
-
-        textarea{
-
-            width: 100%;
-            height: 5rem;
-            box-sizing: border-box;
-
-            
-            padding: 10px;
-            margin: 10px 0;
-            display: block;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-        }
-
-        .imagen_logo{
-
-            
-            justify-content: center;
-            align-items: center;
-            
-            margin: 2rem;
-            height: 12rem;
-            width: 12rem;
-            
-        }
-
-        .imagen_logo img{
-
-            width: 100%;
-            height: auto;
-            display: block;
-            justify-content: center;
-
-        }
-
-        .top{
-
-            display: flex;
-            justify-content: space-between;
-        }
-
-        input[type="text"], input[type="date"], input[type="number"] {
-            width: 95%;
-            padding: 10px;
-            margin: 10px 0;
-            display: block;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-        }
-
-        
-        
-
-    
-
-    </style>
-
-    <nav>
-
-        <ul class="nav-links">
-
-            <li><a href="/administrar_medicos">Médicos</a></li>
-            <li><a href="/cdp">Pacientes</a></li>
-            <li><a href="/consultar_citas">Citas</a></li>
-            <li><a href="/exploracion_diagnostico">Exploración</a></li>
-            
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top border-bottom">
+        <div class="container-fluid">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/administrar_medicos">Médicos</a></li>
+                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/consultar_pacientes">Pacientes</a></li>
+                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/consultar_citas">Citas</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium text-dark" href="/exploracion_diagnostico">Exploración</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <div class="top">
-        <div class="perfil">
-            <h2>Perfil del Paciente</h2>
-            <img src="{{ url_for('static', filename='imagenes/foto_perfil.png') }}" alt="Foto de perfil">
+    <div class="container-fluid mt-4 mb-4">
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <div class="card border-2 rounded-4">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">Perfil del Paciente</h2>
+                        <img src="{{ url_for('static', filename='imagenes/foto_perfil.png') }}" alt="Foto de perfil" class="rounded-circle mb-3" style="width: 60px; height: 60px;">
+                        <p class="mb-1">Nombre del Paciente</p>
+                        <p class="mb-0">Folio: XXXXXX</p>
+                    </div>
+                </div>
+            </div>
 
-            <p>Nombre del Paciente</p>
-            <p>Folio: XXXXXX</p>
-
-        </div>
-
-        <div class="imagen_logo">
-            <img src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Logo">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Logo" class="img-fluid" style="max-height: 150px;">
+                </div>
+            </div>
         </div>
     </div>
     
     <form action="" method="post">
-        <div class="contenedor_general">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-2 rounded-4 mb-4">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center">Datos de la Exploración</h2>
+                                    <p class="text-center mb-4">Ingresar los resultados de la exploración del paciente.</p>
 
-            <div class="datos_exploracion">
-                <h2>Datos de la Exploración</h2>
-                <p>Ingresar los resultados de la exploracio del paciente.</p>
+                                    <div class="mb-2">
+                                        <label class="form-label">Fecha</label>
+                                        <input type="date" class="form-control" id="fechaExploracion" name="fechaExploracion">
+                                    </div>
 
-                <label for="">Fecha</label>
-                <input type="date" id="fechaExploracion" name="fechaExploracion">
+                                    <div class="mb-2">
+                                        <label class="form-label">Altura (cm)</label>
+                                        <input type="number" class="form-control" id="altura" name="altura">
+                                    </div>
 
-                <label for="">Altura (cm)</label>
-                <input type="number" id="altura" name="altura">
+                                    <div class="mb-2">
+                                        <label class="form-label">Ritmo Cardíaco (lpm)</label>
+                                        <input type="number" class="form-control" id="lpm" name="lpm">
+                                    </div>
 
-                <label for="">Ritmo Cardíaco (lpm)</label>
-                <input type="number" id="lpm" name="lpm">
+                                    <div class="mb-2">
+                                        <label class="form-label">Glucosa (mg/dL)</label>
+                                        <input type="number" class="form-control" id="glucosa" name="glucosa">
+                                    </div>
 
-                <label for="">Glucosa (mg/dL)</label>
-                <input type="number" id="glucosa" name="glucosa">
+                                    <div class="mb-2">
+                                        <label class="form-label">Peso (Kg)</label>
+                                        <input type="number" class="form-control" id="peso" name="peso">
+                                    </div>
 
-                <label for="">Peso (Kg)</label>
-                <input type="number" id="peso" name="peso">
+                                    <div class="mb-2">
+                                        <label class="form-label">Temperatura (°C)</label>
+                                        <input type="number" class="form-control" id="temperatura" name="temperatura">
+                                    </div>
 
-                <label for="">Temperatura (°C)</label>
-                <input type="number" id="temperatura" name="temperatura">
+                                    <div class="mb-2">
+                                        <label class="form-label">Saturación de Oxígeno (%)</label>
+                                        <input type="number" class="form-control" id="saturacionOxigeno" name="saturacionOxigeno">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <label for="">Saturación de Oxigeno (%)</label>
-                <input type="number" id="saturacionOxigeno" name="saturacionOxigeno">
+                        <div class="col-md-6">
+                            <div class="card border-2 rounded-4 mb-4">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center">Diagnóstico de Paciente</h2>
+                                    <p class="text-center mb-4">Ingresar los resultados del diagnóstico</p>
 
+                                    <div class="mb-2">
+                                        <label class="form-label">Síntomas</label>
+                                        <textarea name="sintomas" id="sintomas" class="form-control" rows="3" placeholder="Ingresar los síntomas que presenta el paciente"></textarea>
+                                    </div>
 
+                                    <div class="mb-2">
+                                        <label class="form-label">Diagnóstico</label>
+                                        <input type="text" class="form-control" placeholder="Ingresar el diagnóstico" id="diagnostico" name="diagnostico">
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label">Receta Médica</label>
+                                        <textarea name="receta" id="receta" class="form-control" rows="3" placeholder="Ingresar la receta del paciente"></textarea>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label">Indicaciones</label>
+                                        <textarea name="indicaciones" id="indicaciones" class="form-control" rows="3" placeholder="Ingresar las indicaciones que el paciente deberá seguir"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="diagnostico_paciente">
-
-                <h2>Diagnóstico de Paciente</h2>
-                <p>Ingresar los resultados del diagnóstico</p>
-
-                <label for="">Síntomas</label>
-                <textarea name="sintomas" id="sintomas" placeholder="Ingresar los síntomas que presenta el paciente"></textarea>
-
-                <label for="">Diagnóstico</label>
-                <input type="text" placeholder="Ingresar el diagnóstico" id="diagnostico" name="diagnostico">
-
-                <label for="">Receta Médica</label>
-                <textarea name="receta" id="receta" placeholder="Ingresar la receta del paciente"></textarea>
-
-                <label for="">Indicaciones</label>
-                <textarea name="indicaciones" id="indicaciones" placeholder="Ingresar las indicaciones que el paciente deberá seguir"></textarea>
-            </div>
-
         </div>
-            <div class="botones">
-                <button>Limpiar</button>
-                <button type="submit">Registrar Diagnóstico y Exploración</button>
-                <button>Descargar</button>
+        
+        <div class="container-fluid mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-outline-dark btn-sm me-3">Limpiar</button>
+                        <button type="submit" class="btn btn-dark btn-sm me-3">Registrar Diagnóstico y Exploración</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm">Descargar</button>
+                    </div>
+                </div>
             </div>
+        </div>
     </form>
 
-
-
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
