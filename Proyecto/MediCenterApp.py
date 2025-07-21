@@ -2,22 +2,13 @@
 #Aqui se añaden imports
 
 from flask import Flask, jsonify, render_template, request, url_for, flash, redirect
-from flask_mysqldb import MySQL
-import MySQLdb
 
+from ConexionBD import init_mysql
 
+from Blueprints.Medicos.AgregarM import AgregarM_bp
 
 app = Flask(__name__)
-
-app.config['MYSQL_HOST'] = "localhost"
-app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = "Kesadilla94"
-app.config['MYSQL_DB'] = "proyecto_medico"
-#app.config['MYSQL_PORT'] = 3306
-app.secret_key ='mysecretkey'
-
-mysql = MySQL(app)
-
+mysql = init_mysql(app)
 
 @app.errorhandler(404) #Ruta try-catch 404
 def PagNoE(e):
@@ -38,7 +29,7 @@ def DB_check():
         return jsonify({'status':'ok', 'message':'Conectado con exito'}), 200        
         
         
-    except MySQLdb.MySQLError as e:
+    except Exception as e:
         return jsonify({'status':'error', 'message':str(e)}), 500  
 
 
@@ -48,61 +39,13 @@ def DB_check():
 def home():
     return render_template('consultar_citas.html')
 
-#CRUD DE MEDICOS
-# Ruta para guardar médico
-@app.route('/guardarMedico', methods=['POST'])
-def guardar_medico():
-    errores = {}
 
-    # Obtener los datos del formulario (solo los requeridos)
-    rfc = request.form.get('rfc', '').strip()
-    nombre = request.form.get('nombre', '').strip()
-    correo = request.form.get('correo', '').strip()
-    cedula = request.form.get('cedula', '').strip()
-    rol = request.form.get('rol', '').strip()
-    password = request.form.get('password', '').strip()
-    confirmPassword = request.form.get('confirmPassword', '').strip()
 
-    # Validación de los datos
-    if not nombre:
-        errores['nombre'] = 'Nombre completo es obligatorio'
-    if not rfc:
-        errores['rfc'] = 'RFC es obligatorio'
-    if not correo or '@' not in correo:
-        errores['correo'] = 'Correo electrónico inválido'
-    if not cedula:
-        errores['cedula'] = 'Cédula profesional es obligatoria'
-    if not rol:
-        errores['rol'] = 'Rol es obligatorio'
-    if not password or len(password) < 8:
-        errores['password'] = 'La contraseña debe tener al menos 8 caracteres'
-    if password != confirmPassword:
-        errores['confirmPassword'] = 'Las contraseñas no coinciden'
 
-    if not errores:
-        try:
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                'INSERT INTO administracion_medicos (rfc, nombre, correo, cedula, rol, password) VALUES (%s, %s, %s, %s, %s, %s)',
-                (rfc, nombre, correo, cedula, rol, password)
-            )
-            mysql.connection.commit()
-            flash('Médico registrado correctamente en la base de datos')
-            return redirect(url_for('administrar_medicos'))
-        except Exception as e:
-            mysql.connection.rollback()
-            flash('Error al guardar el médico: ' + str(e))
-            return redirect(url_for('agregar_medico'))
-        finally:
-            cursor.close()
 
-    return render_template('agregar_medico.html', errores=errores)
+#Blueprints DE MEDICOS
 
-@app.route('/agregar_medico', methods=['GET', 'POST'])
-def agregar_medico():
-    if request.method == 'POST':
-        return guardar_medico()
-    return render_template('agregar_medico.html')
+app.register_blueprint(AgregarM_bp)
 
 @app.route('/administrar_medicos')
 def administrar_medicos():
@@ -177,9 +120,6 @@ def eliminar_medico(rfc):
         return redirect(url_for('administrar_medicos'))
     finally:
         cursor.close()
-
-
-
 
 
 #CRUD DE PACIENTES
