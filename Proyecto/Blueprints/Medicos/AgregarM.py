@@ -3,9 +3,6 @@ from Cuerito import execute_query
 
 AgregarM_bp = Blueprint('AgregarM', __name__)
 
-# Ruta para guardar médico
-AgregarM_bp = Blueprint('AgregarM', __name__)
-
 @AgregarM_bp.route('/guardarMedico', methods=['POST'])
 def guardar_medico():
     errores = {}
@@ -36,8 +33,8 @@ def guardar_medico():
     if not errores:
         try:
             query = '''
-                INSERT INTO administracion_medicos (rfc, nombre, correo, cedula, rol, password)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                INSERT INTO administracion_medicos (rfc, nombre, correo, cedula, rol, password, estado)
+                VALUES (%s, %s, %s, %s, %s, %s, 1)
             '''
             params = (rfc, nombre, correo, cedula, rol, password)
             execute_query(query, params, commit=True)

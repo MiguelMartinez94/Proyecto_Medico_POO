@@ -223,7 +223,7 @@
 
         <ul class="nav-links">
 
-            <li><a href="/administrar_medicos">Médicos</a></li>
+            <li><a href="{{ url_for('AdministrarM.administrar_medicos') }}">Médicos</a></li>
             <li><a href="/consultar_pacientes">Pacientes</a></li>
             <li><a href="/consultar_citas">Citas</a></li>
             <li><a href="/exploracion_diagnostico">Exploración</a></li>
@@ -234,7 +234,7 @@
     <div class="container">
         <h1><i class="fas fa-user-md"></i> Registrar Nuevo Médico</h1>
         
-        <form action="/guardarMedico" method="POST">
+        <form action="{{ url_for('AgregarM.guardar_medico') }}" method="POST">
             <div class="form-section">
                 <h2><i class="fas fa-id-card"></i> Información Personal</h2>
                 
@@ -363,7 +363,7 @@
                 {%endwith%}
         
             <div class="form-footer">
-                <a href="/administrar_medicos" class="btn btn-back">
+                <a href="{{ url_for('AdministrarM.administrar_medicos') }}" class="btn btn-back">
                     <i class="fas fa-arrow-left"></i> Volver a Administración
                 </a>
             </div>

@@ -444,13 +444,13 @@
                     <td>{{ medico[4] }}</td>
                     <td>{{ medico[5] }}</td>
                     <td class="actions-cell">
-                        <div class="btn-group">
-                            <form action="{{ url_for('editar_medico', rfc=medico[1]) }}" method="POST">
-                                <button class="btn btn-edit">
-                                    <i class="fas fa-edit"></i> Editar
-                                </button>
-                            </form>
-                            <form action="{{ url_for('eliminar_medico', rfc=medico[1]) }}" method="POST">
+                                <div class="btn-group">
+                                <form action="{{ url_for('EditarM.editar_medico', rfc=medico[1]) }}" method="POST">
+                                    <button class="btn btn-edit" type="submit">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                </form>
+                            <form action="{{ url_for('EliminarM.eliminar_medico', rfc=medico[1]) }}" method="POST">
                                 <button class="btn btn-delete" type="submit">
                                     <i class="fas fa-trash-alt"></i> Eliminar
                                 </button>

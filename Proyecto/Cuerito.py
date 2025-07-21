@@ -1,6 +1,7 @@
 from ConexionBD import mysql
 
 def execute_query(query, params=None, fetch="all", commit=False):
+    cursor = None  # Declarar el cursor fuera del try
     try:
         cursor = mysql.connection.cursor()
 
@@ -25,4 +26,5 @@ def execute_query(query, params=None, fetch="all", commit=False):
         return None
 
     finally:
-        cursor.close()
+        if cursor:  # Solo cerrar si fue creado
+            cursor.close()

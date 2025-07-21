@@ -6,6 +6,9 @@ from flask import Flask, jsonify, render_template, request, url_for, flash, redi
 from ConexionBD import init_mysql
 
 from Blueprints.Medicos.AgregarM import AgregarM_bp
+from Blueprints.Medicos.AdministrarM import AdministrarM_bp
+from Blueprints.Medicos.EliminarM import EliminarM_bp
+from Blueprints.Medicos.EditarM import EditarM_bp
 
 app = Flask(__name__)
 mysql = init_mysql(app)
@@ -40,89 +43,17 @@ def home():
     return render_template('consultar_citas.html')
 
 
-
-
-
-#Blueprints DE MEDICOS
+#Blueprints de MEDICOS
 
 app.register_blueprint(AgregarM_bp)
 
-@app.route('/administrar_medicos')
-def administrar_medicos():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
-        medicos = cursor.fetchall()
-        return render_template('administrar_medicos.html', medicos=medicos)
-    except Exception as e:
-        flash('Error al obtener los médicos: ' + str(e))
-        return render_template('administrar_medicos.html', medicos=[])
-    finally:
-        cursor.close()
+app.register_blueprint(AdministrarM_bp)
 
-# Ruta para editar médico
-@app.route('/editar_medico/<rfc>', methods=['POST'])
-def editar_medico(rfc):
-    # Obtener los datos del formulario para la actualización
-    nombre = request.form.get('nombre', '').strip()
-    correo = request.form.get('correo', '').strip()
-    cedula = request.form.get('cedula', '').strip()
-    rol = request.form.get('rol', '').strip()
-    password = request.form.get('password', '').strip()
-    confirmPassword = request.form.get('confirmPassword', '').strip()
+app.register_blueprint(EliminarM_bp)
 
-    errores = {}
+app.register_blueprint(EditarM_bp)
 
-    # Validaciones de los campos
-    if not nombre:
-        errores['nombre'] = 'El nombre es obligatorio'
-    if not correo or '@' not in correo:
-        errores['correo'] = 'Correo electrónico inválido'
-    if not cedula:
-        errores['cedula'] = 'La cédula profesional es obligatoria'
-    if not rol:
-        errores['rol'] = 'El rol es obligatorio'
-    if not password or len(password) < 8:
-        errores['password'] = 'La contraseña debe tener al menos 8 caracteres'
-    if password != confirmPassword:
-        errores['confirmPassword'] = 'Las contraseñas no coinciden'
-
-    if errores:
-        # Si hay errores, volvemos a mostrar el formulario con los errores y los datos previos
-        return render_template('actualizar_medico.html', errores=errores, rfc=rfc,nombre=nombre, correo=correo, cedula=cedula, rol=rol, password=password)
-
-    # Si no hay errores, actualizamos el registro
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('''UPDATE administracion_medicos SET nombre=%s, correo=%s, cedula=%s, rol=%s, password=%s WHERE rfc=%s''',(nombre, correo, cedula, rol, password, rfc))
-        mysql.connection.commit()
-        flash('Médico actualizado correctamente')
-        return redirect(url_for('administrar_medicos'))  # Redirigir a la página de administración
-    except Exception as e:
-        mysql.connection.rollback()
-        flash('Error al actualizar el médico: ' + str(e))
-        return redirect(url_for('editar_medico', rfc=rfc))
-    finally:
-        cursor.close()
-
-# Ruta para eliminar médico
-@app.route('/eliminar_medico/<rfc>', methods=['POST'])
-def eliminar_medico(rfc):
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('UPDATE administracion_medicos SET estado = 0 WHERE rfc = %s', (rfc,))
-        mysql.connection.commit()
-        flash('Médico eliminado correctamente')
-        return redirect(url_for('administrar_medicos'))
-    except Exception as e:
-        mysql.connection.rollback()
-        flash('Error al eliminar el médico: ' + str(e))
-        return redirect(url_for('administrar_medicos'))
-    finally:
-        cursor.close()
-
-
-#CRUD DE PACIENTES
+#Blueprints de PACIENTES
 
 #Ruta de consulta de pacientes
 
