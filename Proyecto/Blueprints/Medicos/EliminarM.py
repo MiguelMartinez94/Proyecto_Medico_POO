@@ -7,7 +7,6 @@ EliminarM_bp = Blueprint('EliminarM', __name__)
 def eliminar_medico(rfc):
     try:
         cursor = mysql.connection.cursor()
-        # Verificar si el médico existe
         cursor.execute('SELECT * FROM administracion_medicos WHERE rfc = %s', (rfc,))
         if not cursor.fetchone():
             flash('Médico no encontrado', 'error')

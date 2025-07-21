@@ -129,11 +129,9 @@
 <body>
 
     <nav>
-
         <ul class="nav-links">
-
             <li><a href="/administrar_medicos">Médicos</a></li>
-            <li><a href="/consultar_pacientes">Pacientes</a></li>
+            <li><a href="{{ url_for('ConsultarP.pacientes') }}">Pacientes</a></li>
             <li><a href="/consultar_citas">Citas</a></li>
             <li><a href="/exploracion_diagnostico">Exploración</a></li>
         </ul>
@@ -141,156 +139,78 @@
 
     <div class="container">
         <h1>Expediente de Paciente</h1>
-        
         <h2>Ingresa los datos del nuevo paciente</h2>
-        
-        <form action="/registrar_pacientes" method="post">
-            <div class="form-section">
 
+        <form action="{{ url_for('RegistrarP.registrarPaciente') }}" method="post">
+            <div class="form-section">
                 <div class="form-row">
                     <div class="form-label">ID de Médico</div>
-                    <input type="text" class="form-input" name="medico_atiende" value="{{request.form.medico_atiende}}">
-
-                    {% if errores and errores.medico_atiende%}
-
-                    <p style="color: red">{{errores.medico_atiende}}</p>
-                    
+                    <input type="text" class="form-input" name="medico_atiende" value="{{ request.form.medico_atiende }}">
+                    {% if errores and errores.medico_atiende %}
+                        <p style="color: red">{{ errores.medico_atiende }}</p>
                     {% endif %}
-
                 </div>
 
-                
-                
-                
                 <div class="form-row">
                     <div class="form-label">Nombre Completo del Paciente</div>
-                    <input type="text" class="form-input" name="paciente" value="{{request.form.paciente}}">
-
-                    {% if errores and errores.paciente%}
-
-                    <p style="color: red">{{errores.paciente}}</p>
-                    
+                    <input type="text" class="form-input" name="paciente" value="{{ request.form.paciente }}">
+                    {% if errores and errores.paciente %}
+                        <p style="color: red">{{ errores.paciente }}</p>
                     {% endif %}
-
                 </div>
 
-                
-                
                 <div class="form-row">
                     <div class="form-label">Fecha de Nacimiento</div>
-                    <input type="date" class="form-input" name="fecha_nacimiento" value="{{request.form.fecha_nacimiento}}">
-
-                    {% if errores and errores.fecha_nacimiento%}
-
-                    <p style="color: red">{{errores.fecha_nacimiento}}</p>
-                    
+                    <input type="date" class="form-input" name="fecha_nacimiento" value="{{ request.form.fecha_nacimiento }}">
+                    {% if errores and errores.fecha_nacimiento %}
+                        <p style="color: red">{{ errores.fecha_nacimiento }}</p>
                     {% endif %}
-
                 </div>
 
                 <div class="operation-text">Opcional</div>
-                
                 <div class="form-row">
                     <div class="form-label">Enfermedades Crónicas</div>
-                    <input type="text" class="form-input" name="enfermedades_cronicas" value="{{request.form.enfermedades_cronicas}}">
-
-                    {% if errores and errores.enfermedades_cronicas%}
-
-                    <p style="color: red">{{errores.enfermedades_cronicas}}</p>
-                    
+                    <input type="text" class="form-input" name="enfermedades_cronicas" value="{{ request.form.enfermedades_cronicas }}">
+                    {% if errores and errores.enfermedades_cronicas %}
+                        <p style="color: red">{{ errores.enfermedades_cronicas }}</p>
                     {% endif %}
-
                 </div>
 
-                
-                
                 <div class="operation-text">Opcional</div>
-                
                 <div class="form-row">
                     <div class="form-label">Alergias</div>
-                    <input type="text" class="form-input" name="alergias" value="{{request.form.alergias}}">
-
-                    {% if errores and errores.alergias%}
-
-                    <p style="color: red">{{errores.alergias}}</p>
-                    
+                    <input type="text" class="form-input" name="alergias" value="{{ request.form.alergias }}">
+                    {% if errores and errores.alergias %}
+                        <p style="color: red">{{ errores.alergias }}</p>
                     {% endif %}
-
                 </div>
 
-                
-                
                 <div class="operation-text">Opcional</div>
-                
                 <div class="form-row">
                     <div class="form-label">Antecedentes Familiares</div>
-                    <input type="text" class="form-input" name="antecedentes" value="{{request.form.antecedentes}}">
-
-                    {% if errores and errores.antecedentes%}
-
-                    <p style="color: red">{{errores.antecedentes}}</p>
-                    
+                    <input type="text" class="form-input" name="antecedentes" value="{{ request.form.antecedentes }}">
+                    {% if errores and errores.antecedentes %}
+                        <p style="color: red">{{ errores.antecedentes }}</p>
                     {% endif %}
-
                 </div>
 
-                
-
                 <div class="separator"></div>
-
-                
-
-                <div class="separator"></div>
-                
                 <div class="button-group">
                     <button class="btn btn-clear">Limpiar</button>
                     <button class="btn btn-register" type="submit">Registrar Expediente</button>
                 </div>
             </div>
         </form>   
-        
+    </div>
 
     <script>
-        // Funcionalidad para el botón Limpiar
+        // Limpiar campos
         document.querySelector('.btn-clear').addEventListener('click', function(e) {
             e.preventDefault();
             const inputs = document.querySelectorAll('.form-input');
-            inputs.forEach(input => {
-                input.value = '';
-            });
-        });
-
-        // Funcionalidad para el botón Registrar
-        const registerBtn = document.getElementById('register-btn');
-        const modal = document.getElementById('confirmation-modal');
-        const modalMessage = document.getElementById('modal-message');
-        
-        registerBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Mostrar confirmación de registro
-            modalMessage.textContent = "El paciente ha sido registrado correctamente.";
-            modal.style.display = 'flex';
-        });
-        
-        // Cerrar
-        document.getElementById('close-modal-btn').addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-        
-        goToPatientsBtn.addEventListener('click', function() {
-            // Redirigir a la página de pacientes
-            alert('Redirigiendo a la lista de pacientes');
-            modal.style.display = 'none';
-            window.location.href = 'cita_exploracion_diagnostico.html';
-        });
-        
-        // Cerrar modal haciendo clic fuera del contenido
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
+            inputs.forEach(input => input.value = '');
         });
     </script>
+
 </body>
 </html>

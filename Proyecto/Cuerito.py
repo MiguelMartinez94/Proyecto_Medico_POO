@@ -26,5 +26,5 @@ def execute_query(query, params=None, fetch="all", commit=False):
         return None
 
     finally:
-        if cursor:  # Solo cerrar si fue creado
+        if cursor:
             cursor.close()
