@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, request, url_for, flash, redi
 from ConexionBD import init_mysql
 
 from Blueprints.Principales.DBCheck import DBCheck_bp
-
+from Blueprints.Principales.Login import Login_bp
 
 from Blueprints.Medicos.AgregarM import AgregarM_bp
 from Blueprints.Medicos.AdministrarM import AdministrarM_bp
@@ -24,6 +24,8 @@ mysql = init_mysql(app)
 #Blueprints Generales
 
 app.register_blueprint(DBCheck_bp)
+
+app.register_blueprint(Login_bp)
 
 #Blueprints de MEDICOS
 
@@ -46,10 +48,6 @@ app.register_blueprint(EliminarP_bp)
 app.register_blueprint(ActualizarP_bp)
 
 #Apartir de aqui se añaden rutas
-
-@app.route('/')
-def home():
-    return render_template('consultar_citas.html')
 
 @app.route('/consultar_citas')
 def citas():

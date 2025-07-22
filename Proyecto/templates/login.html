@@ -60,6 +60,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #beffdc;
         }
@@ -80,13 +81,12 @@
             <div>
             <h3>Ingresa a tu cuenta</h3>
 
-            <form action="/">
-                <input type="text" name="txtRFC" placeholder="RFC">
-                <input type="password" name="txtContrasena" placeholder="Contraseña">
+            <form action="{{ url_for('Login.procesar_login') }}" method="POST">
+                <input type="text" name="txtRFC" placeholder="RFC" required>
+                <input type="password" name="txtContrasena" placeholder="Contraseña" required>
                 <a href="#">¿Olvidó su contraseña?</a>
-                <button type="button" onclick="window.location.href='/consultar_pacientes'">Entrar</button>
-
-                </form>
+                <button type="submit">Entrar</button>
+            </form>
             </div>
         </div>
     </div>

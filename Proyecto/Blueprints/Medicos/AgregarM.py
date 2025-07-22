@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from Cuerito import execute_query
+from Cuerito import mysql
 
 AgregarM_bp = Blueprint('AgregarM', __name__)
 
@@ -37,7 +37,7 @@ def guardar_medico():
                 VALUES (%s, %s, %s, %s, %s, %s, 1)
             '''
             params = (rfc, nombre, correo, cedula, rol, password)
-            execute_query(query, params, commit=True)
+            mysql(query, params, commit=True)
 
             flash('Médico registrado correctamente en la base de datos')
             return redirect(url_for('AgregarM.agregar_medico'))
