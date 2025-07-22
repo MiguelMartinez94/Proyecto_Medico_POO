@@ -4,175 +4,467 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Nuevo Médico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        h1 i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            gap: 8px;
+        }
+
+        .btn-submit {
+            background-color: #27ae60;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+
+        .btn-back {
+            background-color: #95a5a6;
+            padding: 10px 20px;
+            margin-top: 15px;
+        }
+
+        .btn-back:hover {
+            background-color: #7f8c8d;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .instructions p {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-back {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container-fluid">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item me-4">
-                    <a class="nav-link fw-medium text-dark" href="/administrar_medicos">Médicos</a>
-                </li>
-                <li class="nav-item me-4">
-                    <a class="nav-link fw-medium text-dark" href="/consultar_pacientes">Pacientes</a>
-                </li>
-                <li class="nav-item me-4">
-                    <a class="nav-link fw-medium text-dark" href="/consultar_citas">Citas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-medium text-dark" href="/exploracion_diagnostico">Exploración</a>
-                </li>
-            </ul>
-        </div>
+    
+
+<body>
+
+<nav>
+
+        <ul class="nav-links">
+
+            <li><a href="{{ url_for('AdministrarM.administrar_medicos') }}">Médicos</a></li>
+            <li><a href="/consultar_pacientes">Pacientes</a></li>
+            <li><a href="/consultar_citas">Citas</a></li>
+            <li><a href="/exploracion_diagnostico">Exploración</a></li>
+            
+        </ul>
     </nav>
 
-    <div class="container-fluid mt-4 mb-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card border-2 rounded-4">
-                    <div class="card-body">
-                        <h1 class="card-title text-center mb-4"><i class="fas fa-user-md text-primary"></i> Registrar Nuevo Médico</h1>
-                        
-                        <form action="/guardarMedico" method="POST">
-                            <div class="card border-2 rounded-4 mb-4">
-                                <div class="card-body">
-                                    <h2 class="card-title"><i class="fas fa-id-card text-primary"></i> Información Personal</h2>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <label for="nombre" class="form-label">Nombre Completo <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Juan Pérez López" value="{{request.form.nombre}}">
-                                            </div>
-                                            {% if errores and errores.nombre %}
-                                                <div class="text-danger mt-1">{{errores.nombre}}</div>
-                                            {% endif %}
-                                        </div>
-                                        
-                                        <div class="col-md-6 mb-2">
-                                            <label for="rfc" class="form-label">RFC <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                                <input type="text" class="form-control" id="rfc" name="rfc" placeholder="ABC123456XYZ" value="{{request.form.rfc}}">
-                                            </div>
-                                            {% if errores and errores.rfc %}
-                                                <div class="text-danger mt-1">{{errores.rfc}}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <label for="correo" class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                                <input type="email" class="form-control" id="correo" name="correo" placeholder="juan.perez@ejemplo.com" value="{{request.form.correo}}">
-                                            </div>
-                                            {% if errores and errores.correo %}
-                                                <div class="text-danger mt-1">{{errores.correo}}</div>
-                                            {% endif %}
-                                        </div>
-                                        
-                                        <div class="col-md-6 mb-2">
-                                            <label for="cedula" class="form-label">Cédula Profesional <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                                <input type="text" class="form-control" id="cedula" name="cedula" placeholder="12345678" value="{{request.form.cedula}}">
-                                            </div>
-                                            {% if errores and errores.cedula %}
-                                                <div class="text-danger mt-1">{{errores.cedula}}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card border-2 rounded-4 mb-4">
-                                <div class="card-body">
-                                    <h2 class="card-title"><i class="fas fa-lock text-primary"></i> Seguridad</h2>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <label for="password" class="form-label">Contraseña <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 8 caracteres" value="{{request.form.password}}">
-                                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            {% if errores and errores.password %}
-                                                <div class="text-danger mt-1">{{errores.password}}</div>
-                                            {% endif %}
-                                        </div>
+    <div class="container">
+        <h1><i class="fas fa-user-md"></i> Registrar Nuevo Médico</h1>
+        
+        <form action="{{ url_for('AgregarM.guardar_medico') }}" method="POST">
+            <div class="form-section">
+                <h2><i class="fas fa-id-card"></i> Información Personal</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez López"  value="{{request.form.nombre}}">
 
-                                        <div class="col-md-6 mb-2">
-                                            <label for="confirmPassword" class="form-label">Confirmar Contraseña <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Repita su contraseña" value="{{request.form.confirmPassword}}">
-                                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            {% if errores and errores.confirmPassword %}
-                                                <div class="text-danger mt-1">{{errores.confirmPassword}}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card border-2 rounded-4 mb-4">
-                                <div class="card-body">
-                                    <h2 class="card-title"><i class="fas fa-user-tag text-primary"></i> Rol en el Sistema</h2>
-                                    
-                                    <div class="mb-2">
-                                        <label for="rol" class="form-label">Rol en el Sistema <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                                            <select class="form-select" id="rol" name="rol">
-                                                <option value="" disabled selected>Seleccione un rol</option>
-                                                <option value="medico">Médico General</option>
-                                                <option value="medico_admin">Médico Administrador</option>
-                                                <option value="especialista">Médico Especialista</option>
-                                            </select>
-                                        </div>
-                                        {% if errores and errores.rol %}
-                                            <div class="text-danger mt-1">{{errores.rol}}</div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-dark w-100 mt-3">
-                                <i class="fas fa-save"></i> Registrar Médico
-                            </button>
-                        </form>
-
-                        {%with mensajes = get_flashed_messages()%}
-                            {% if mensajes%}
-                                {% for msj in mensajes%}
-                                    <div class="alert alert-info mt-3">{{msj}}</div>
-                                {%endfor%}
+                            {% if errores and errores.nombre %}
+                                <p style="color: red">{{errores.nombre}}</p>
                             {% endif %}
-                        {%endwith%}
-                        
-                        <div class="mt-3">
-                            <a href="/administrar_medicos" class="btn btn-outline-dark">
-                                <i class="fas fa-arrow-left"></i> Volver a Administración
-                            </a>
+
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rfc">RFC <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="rfc" name="rfc" placeholder="ABC123456XYZ"  value="{{request.form.rfc}}">
+
+                            {% if errores and errores.rfc %}
+                                <p style="color: red">{{errores.rfc}}</p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico <span class="required">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="correo" name="correo" placeholder="juan.perez@ejemplo.com" value="{{request.form.correo}}">
+
+                            {% if errores and errores.correo %}
+                                <p style="color: red">{{errores.correo}}</p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cedula">Cédula Profesional <span class="">*</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-id-badge"></i>
+                            <input type="text" id="cedula" name="cedula" placeholder="12345678" value="{{request.form.cedula}}"  >
+
+                            {% if errores and errores.cedula %}
+                                <p style="color: red">{{errores.cedula}}</p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="form-section">
+                <h2><i class="fas fa-lock"></i> Seguridad</h2>
+                
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Contraseña <span class="required">*</span></label>
+                    <div class="input-container password-container">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" value="{{request.form.password}}">
+
+                        {% if errores and errores.password %}
+                            <p style="color: red">{{errores.password}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña <span class="required">*</span></label>
+                    <div class="input-container password-container">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita su contraseña" value="{{request.form.confirmPassword}}">
+
+                        {% if errores and errores.confirmPassword %}
+                            <p style="color: red">{{errores.rol}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="form-section">
+                <h2><i class="fas fa-user-tag"></i> Rol en el Sistema</h2>
+                
+                <div class="form-group">
+                    <label for="rol">Rol en el Sistema <span class="required">*</span></label>
+                    <div class="input-container">
+                        <i class="fas fa-user-tag"></i>
+                        <select id="rol" name="rol" >
+                            <option value="" disabled selected>Seleccione un rol</option>
+                            <option value="medico">Médico General</option>
+                            <option value="medico_admin">Médico Administrador</option>
+                            <option value="especialista">Médico Especialista</option>
+                        </select>
+
+                        {% if errores and errores.rol %}
+                            <p style="color: red">{{errores.rol}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-submit">
+                <i class="fas fa-save"></i> Registrar Médico
+            </button>
+        </form>
+
+
+                {%with mensajes =  get_flashed_messages()%}
+
+                    {% if mensajes%}
+
+                        {% for msj in mensajes%}
+                            <h4 style="color: blue">{{msj}}</h4>
+                        {%endfor%}
+                    {% endif %}
+                {%endwith%}
+        
+            <div class="form-footer">
+                <a href="{{ url_for('AdministrarM.administrar_medicos') }}" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i> Volver a Administración
+                </a>
+            </div>
+            </a>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        // Función para mostrar/ocultar contraseña
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+        
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                confirmPasswordInput.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+        
+        // Validación del formulario
+        const form = document.getElementById('medicoForm');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validar campos vacíos
+            const requiredFields = [
+                'nombre', 'rfc', 'correo', 'cedula', 
+                'password', 'confirmPassword', 'rol'
+            ];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    showError(input, `${field}Error`, 'Este campo es obligatorio');
+                    isValid = false;
+                } else {
+                    clearError(input);
+                }
+            });
+            
+            // Validar correo
+            const correo = document.getElementById('correo');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (correo.value.trim() && !emailRegex.test(correo.value.trim())) {
+                showError(correo, 'correoError', 'Por favor ingrese un correo válido');
+                isValid = false;
+            }
+            
+            // Validar contraseña
+            const password = document.getElementById('password');
+            if (password.value.length < 8) {
+                showError(password, 'passwordError', 'La contraseña debe tener al menos 8 caracteres');
+                isValid = false;
+            }
+            
+            // Validar confirmación de contraseña
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword.value !== password.value) {
+                showError(confirmPassword, 'confirmPasswordError', 'Las contraseñas no coinciden');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                alert('¡Registro exitoso!\n\nEl médico ha sido registrado correctamente en el sistema.');
+                form.reset();
+            }
+        });
+        
+        function showError(input, errorId, message) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            input.style.borderColor = '#e74c3c';
+        }
+        
+        function clearError(input) {
+            const fieldName = input.id;
+            const errorElement = document.getElementById(`${fieldName}Error`);
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+            input.style.borderColor = '#ddd';
+        }
+    </script>
 </body>
 </html>
