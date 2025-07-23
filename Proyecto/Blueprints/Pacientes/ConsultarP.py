@@ -7,7 +7,7 @@ ConsultarP_bp = Blueprint('ConsultarP', __name__)
 def pacientes():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM expediente_pacientes WHERE state = 1')
+        cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
         pacientes = cursor.fetchall()
         return render_template('consultar_pacientes.html', errores={}, pacientes=pacientes)
 

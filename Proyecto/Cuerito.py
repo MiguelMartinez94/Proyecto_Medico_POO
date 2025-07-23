@@ -1,6 +1,6 @@
 from ConexionBD import mysql
 
-def execute_query(query, params=None, fetch="all", commit=False):
+def mysql(query, params=None, fetch="all", commit=False):
     cursor = None  # Declarar el cursor fuera del try
     try:
         cursor = mysql.connection.cursor()

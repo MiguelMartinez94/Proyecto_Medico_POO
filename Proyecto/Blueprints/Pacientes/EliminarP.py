@@ -7,7 +7,7 @@ EliminarP_bp = Blueprint('EliminarP', __name__)
 def eliminar_paciente(id):
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('UPDATE expediente_pacientes SET state = 0 WHERE id_paciente = %s', (id,))
+        cursor.execute('UPDATE expediente_pacientes SET estado = 0 WHERE id_paciente = %s', (id,))
         mysql.connection.commit()
         flash('Paciente eliminado correctamente')
         return redirect(url_for('ConsultarP.pacientes'))
