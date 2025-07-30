@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exploración y Diagnóstico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top border-bottom">
-        <div class="container-fluid">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/administrar_medicos">Médicos</a></li>
-                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/consultar_pacientes">Pacientes</a></li>
-                <li class="nav-item me-4"><a class="nav-link fw-medium text-dark" href="/consultar_citas">Citas</a></li>
-                <li class="nav-item"><a class="nav-link fw-medium text-dark" href="/exploracion_diagnostico">Exploración</a></li>
-            </ul>
-        </div>
-    </nav>
+
+    {% extends 'plantilla.html' %}
+
+    {% block body %}
 
     <div class="container-fluid mt-4 mb-4">
         <div class="row justify-content-between">
@@ -26,8 +11,13 @@
                     <div class="card-body text-center">
                         <h2 class="card-title">Perfil del Paciente</h2>
                         <img src="{{ url_for('static', filename='imagenes/foto_perfil.png') }}" alt="Foto de perfil" class="rounded-circle mb-3" style="width: 60px; height: 60px;">
-                        <p class="mb-1">Nombre del Paciente</p>
-                        <p class="mb-0">Folio: XXXXXX</p>
+                        {% if paciente_info %}
+                            <p class="mb-1"><strong>{{ paciente_info['nombre'] }}</strong></p>
+                            <p class="mb-0">Folio: {{ paciente_info['id'] }}</p>
+                        {% else %}
+                            <p class="mb-1">No cargó nombre del paciente</p>
+                            <p class="mb-0">Folio: XXXXXX</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -39,8 +29,22 @@
             </div>
         </div>
     </div>
+
+                        {%with mensajes =  get_flashed_messages()%}
+                            {% if mensajes%}
+                                {% for msj in mensajes%}
+                                    <div class="alert alert-info">{{msj}}</div>
+                                {%endfor%}
+                            {% endif %}
+                        {%endwith%}
+
     
-    <form action="" method="post">
+    <form action="{{ url_for('GuardarR.guardarReceta') }}" method="post">
+
+        {% if paciente_info %}
+            <input type="hidden" name="id_paciente" value="{{ paciente_info.id }}">
+        {% endif %}
+
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-10">
@@ -53,37 +57,67 @@
 
                                     <div class="mb-2">
                                         <label class="form-label">Fecha</label>
-                                        <input type="date" class="form-control" id="fechaExploracion" name="fechaExploracion">
+                                        <input type="date" class="form-control"  name="fechaExploracion" value="{{request.form.fechaExploracion}}">
+
+                                            {% if errores and errores.fechaExploracion %}
+                                                <div class="text-danger mt-1">{{errores.fechaExploracion}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Altura (cm)</label>
-                                        <input type="number" class="form-control" id="altura" name="altura">
+                                        <input type="number" class="form-control"  name="altura" value="{{request.form.altura}}">
+
+                                            {% if errores and errores.altura %}
+                                                <div class="text-danger mt-1">{{errores.altura}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Ritmo Cardíaco (lpm)</label>
-                                        <input type="number" class="form-control" id="lpm" name="lpm">
+                                        <input type="number" class="form-control"  name="lpm"
+                                        value="{{request.form.lpm}}">
+
+                                            {% if errores and errores.lpm %}
+                                                <div class="text-danger mt-1">{{errores.lpm}}</div>
+                                            {% endif %}
+
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Glucosa (mg/dL)</label>
-                                        <input type="number" class="form-control" id="glucosa" name="glucosa">
+                                        <input type="number" class="form-control"  name="glucosa" value="{{request.form.glucosa}}">
+
+                                            {% if errores and errores.glucosa %}
+                                                <div class="text-danger mt-1">{{errores.glucosa}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Peso (Kg)</label>
-                                        <input type="number" class="form-control" id="peso" name="peso">
+                                        <input type="number" step="0.1" class="form-control"  name="peso" value="{{request.form.peso}}">
+
+                                            {% if errores and errores.peso %}
+                                                <div class="text-danger mt-1">{{errores.peso}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Temperatura (°C)</label>
-                                        <input type="number" class="form-control" id="temperatura" name="temperatura">
+                                        <input type="number" step="0.1" class="form-control"  name="temperatura" value="{{request.form.temperatura}}">
+
+                                            {% if errores and errores.temperatura %}
+                                                <div class="text-danger mt-1">{{errores.temperatura}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Saturación de Oxígeno (%)</label>
-                                        <input type="number" class="form-control" id="saturacionOxigeno" name="saturacionOxigeno">
+                                        <input type="number" class="form-control"  name="saturacionOxigeno" value="{{request.form.saturacionOxigeno}}">
+
+                                            {% if errores and errores.saturacionOxigeno %}
+                                                <div class="text-danger mt-1">{{errores.saturacionOxigeno}}</div>
+                                            {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -97,22 +131,39 @@
 
                                     <div class="mb-2">
                                         <label class="form-label">Síntomas</label>
-                                        <textarea name="sintomas" id="sintomas" class="form-control" rows="3" placeholder="Ingresar los síntomas que presenta el paciente"></textarea>
+                                        <textarea name="sintomas"  class="form-control" rows="3" placeholder="Ingresar los síntomas que presenta el paciente"></textarea>
+
+                                            {% if errores and errores.sintomas %}
+                                                <div class="text-danger mt-1">{{errores.sintomas}}</div>
+                                            {% endif %}
+
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Diagnóstico</label>
-                                        <input type="text" class="form-control" placeholder="Ingresar el diagnóstico" id="diagnostico" name="diagnostico">
+                                        <input type="text" class="form-control" placeholder="Ingresar el diagnóstico"  name="diagnostico" value="{{request.form.diagnostico}}">
+
+                                            {% if errores and errores.diagnostico %}
+                                                <div class="text-danger mt-1">{{errores.diagnostico}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Receta Médica</label>
-                                        <textarea name="receta" id="receta" class="form-control" rows="3" placeholder="Ingresar la receta del paciente"></textarea>
+                                        <textarea name="receta"  class="form-control" rows="3" placeholder="Ingresar la receta del paciente"></textarea>
+
+                                            {% if errores and errores.receta %}
+                                                <div class="text-danger mt-1">{{errores.receta}}</div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-2">
                                         <label class="form-label">Indicaciones</label>
-                                        <textarea name="indicaciones" id="indicaciones" class="form-control" rows="3" placeholder="Ingresar las indicaciones que el paciente deberá seguir"></textarea>
+                                        <textarea name="indicaciones"  class="form-control" rows="3" placeholder="Ingresar las indicaciones que el paciente deberá seguir"></textarea>
+
+                                            {% if errores and errores.indicaciones %}
+                                                <div class="text-danger mt-1">{{errores.indicaciones}}</div>
+                                            {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -128,13 +179,14 @@
                     <div class="text-center">
                         <button type="button" class="btn btn-outline-dark btn-sm me-3">Limpiar</button>
                         <button type="submit" class="btn btn-dark btn-sm me-3">Registrar Diagnóstico y Exploración</button>
-                        <button type="button" class="btn btn-outline-dark btn-sm">Descargar</button>
+                        <a href="/descargar_receta/{{ paciente_info.id }}" class="btn btn-outline-dark btn-sm" {% if not paciente_info %}style="pointer-events: none; opacity: 0.5;"{% endif %}>Descargar Receta</a>
+                    </div>
+
+                        
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {% endblock %}

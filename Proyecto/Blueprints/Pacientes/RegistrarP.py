@@ -5,12 +5,21 @@ RegistrarP_bp = Blueprint('RegistrarP', __name__)
 
 @RegistrarP_bp.route('/registrar_paciente')
 def vistaRegistroPaciente():
-    return render_template('registrar_pacientes.html')
+    
+    
+    #Consulta de los medicos que existen en la base de datos
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
+    medicos = cursor.fetchall()
+    cursor.close() 
 
-@RegistrarP_bp.route('/registrar_pacientes', methods=['POST'])
+    return render_template('registrar_pacientes.html',  medicos = medicos)
+
+@RegistrarP_bp.route('/registrar_pacientes', methods=['GET','POST'])
 def registrarPaciente():
     errores = {}
-
+    
+    
     medico = request.form.get('medico_atiende', '').strip()
     paciente = request.form.get('paciente', '').strip()
     fecha = request.form.get('fecha_nacimiento', '').strip()
@@ -49,4 +58,4 @@ def registrarPaciente():
         finally:
             cursor.close()
 
-    return render_template('registrar_pacientes.html', errores=errores)
+    return render_template('registrar_pacientes.html', errores=errores,)

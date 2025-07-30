@@ -17,6 +17,11 @@ from Blueprints.Pacientes.ConsultarP import ConsultarP_bp
 from Blueprints.Pacientes.EliminarP import EliminarP_bp
 from Blueprints.Pacientes.ActualizarP import ActualizarP_bp
 
+from Blueprints.Receta.GuardarReceta import GuardarR_bp
+from Blueprints.Receta.MostrarExploracion import MostrarExploracion_bp
+from Blueprints.Receta.ImprimirReceta import ImprimirReceta_bp
+#from Blueprints.Receta.ImprimirReceta import ImprimirR_bp
+
 
 app = Flask(__name__)
 mysql = init_mysql(app)
@@ -46,6 +51,15 @@ app.register_blueprint(ConsultarP_bp)
 app.register_blueprint(EliminarP_bp)
 
 app.register_blueprint(ActualizarP_bp)
+
+
+#Blueprints para Receta
+
+app.register_blueprint(GuardarR_bp)
+app.register_blueprint(MostrarExploracion_bp)
+app.register_blueprint(ImprimirReceta_bp)
+
+#app.register_blueprint(ImprimirR_bp)
 
 #Apartir de aqui se añaden rutas
 

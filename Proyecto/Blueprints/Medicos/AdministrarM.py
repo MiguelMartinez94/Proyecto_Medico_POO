@@ -5,6 +5,8 @@ AdministrarM_bp = Blueprint('AdministrarM', __name__)
 
 @AdministrarM_bp.route('/administrar_medicos')
 def administrar_medicos():
+    
+    cursor = None
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
@@ -14,4 +16,5 @@ def administrar_medicos():
         flash('Error al obtener los médicos: ' + str(e))
         return render_template('administrar_medicos.html', medicos=[])
     finally:
-        cursor.close()
+        if cursor is not None:
+            cursor.close()

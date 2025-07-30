@@ -5,15 +5,23 @@ ActualizarP_bp = Blueprint('ActualizarP', __name__)
 
 @ActualizarP_bp.route('/actualizar_paciente/<int:id>')
 def consulta_actualizar(id):
+    
+    
+    
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM expediente_pacientes WHERE id_paciente = %s', (id,))
         paciente = cursor.fetchone()
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
+        medicos = cursor.fetchall()
+        
 
         if paciente:
             cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
             consultaTodo = cursor.fetchall()
-            return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores={})
+            return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, medicos = medicos, errores={})
         else:
             flash('Paciente no encontrado')
             return redirect(url_for('ConsultarP.pacientes'))

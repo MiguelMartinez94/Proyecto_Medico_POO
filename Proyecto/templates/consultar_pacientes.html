@@ -1,50 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Pacientes</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        nav{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #f4f4f4;
-        }
+    {% extends 'plantilla.html' %}
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #000;
-            font-weight: 500;
-            position: relative;
-            padding-bottom: 2px;
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <ul class="nav-links">
-            <li><a href="{{ url_for('AdministrarM.administrar_medicos') }}">Médicos</a></li>
-            <li><a href="{{ url_for('ConsultarP.pacientes') }}">Pacientes</a></li>
-            <li><a href="/consultar_citas">Citas</a></li>
-        </ul>
-    </nav>
+    {% block body %}
 
     <div class="container-fluid mt-4">
         <div class="row">
@@ -57,8 +13,16 @@
                             <input type="hidden" name="id_paciente" value="{{ paciente[0] }}">
 
                             <div class="mb-2">
-                                <label class="form-label">ID del Médico:</label>
-                                <input type="text" class="form-control" name="n_medico_atiende" value="{{ paciente[1] or '' }}">
+                                <label class="form-label">Médico que Atiende</label>
+                                
+                                
+                                <select name="n_medico_atiende">
+                                    <option value="">-- Selecciona un médico --</option>
+                                    {% for medico in medicos %}
+                                        <option value="{{ medico.0 }}">{{ medico.2 }}</option>
+                                    {% endfor %}
+                                </select>
+
                                 {% if errores and errores.n_medico_atiende %}
                                     <p style="color: red">{{ errores.n_medico_atiende }}</p>
                                 {% endif %}
@@ -155,6 +119,20 @@
                                         <td>{{ paciente[5] }}</td>
                                         <td>{{ paciente[6] }}</td>
                                         <td>
+                                            
+                                            <a href="{{ url_for('MostrarExploracion.mostrar_exploracion', id_paciente=paciente[0]) }}" class="btn btn-outline-dark btn-sm mb-1">
+                                                <i class="fas fa-edit"></i> Receta
+                                            </a>
+
+                                            <a href="/descargar_receta/{{ paciente.0 }}/{{ paciente.2}}" class="btn btn-outline-dark btn-sm" {% if not paciente.0 %}style="pointer-events: none; opacity: 0.5;"{% endif %}>Descargar Receta</a>
+                    </div>
+
+                                                <form action="#" >
+                                                    <button class="btn btn-outline-dark btn-sm" type="submit">
+                                                        <i class="fas fa-edit"></i> Consultar Citas
+                                                    </button>
+                                                </form>
+                                            
                                             <form action="{{ url_for('ActualizarP.consulta_actualizar', id=paciente[0]) }}" class="d-inline">
                                                 <button type="submit" class="btn btn-outline-dark btn-sm mb-1">Modificar</button>
                                             </form>
@@ -177,6 +155,4 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {% endblock %}

@@ -1,51 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Paciente</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        nav{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #f4f4f4;
-        }
+    {% extends 'plantilla.html' %}
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #000;
-            font-weight: 500;
-            position: relative;
-            padding-bottom: 2px;
-        }
-    </style>
-</head>
-<body class="bg-light">
-
-    <nav>
-        <ul class="nav-links">
-            <li><a href="/administrar_medicos">Médicos</a></li>
-            <li><a href="{{ url_for('ConsultarP.pacientes') }}">Pacientes</a></li>
-            <li><a href="/consultar_citas">Citas</a></li>
-            <li><a href="/exploracion_diagnostico">Exploración</a></li>
-        </ul>
-    </nav>
+    {% block body %}
 
     <div class="container-fluid mt-4">
         <div class="row justify-content-center">
@@ -57,8 +12,17 @@
 
                         <form action="{{ url_for('RegistrarP.registrarPaciente') }}" method="post">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">ID de Médico</label>
-                                <input type="text" class="form-control" name="medico_atiende" value="{{ request.form.medico_atiende }}">
+                                <label class="form-label fw-bold">Médico que Atiende</label>
+                            <!--<input type="text" class="form-control" name="medico_atiende" value="{{ request.form.medico_atiende }}">-->
+
+                                <select name="medico_atiende">
+                                    <option value="">-- Selecciona un médico --</option>
+                                    {% for medico in medicos %}
+                                        <option value="{{ medico.0 }}">{{ medico.2 }}</option>
+                                    {% endfor %}
+                                </select>
+                            
+
                                 {% if errores and errores.medico_atiende %}
                                     <p style="color: red">{{ errores.medico_atiende }}</p>
                                 {% endif %}
@@ -119,8 +83,4 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-
-</body>
-</html>
+    {% endblock %}

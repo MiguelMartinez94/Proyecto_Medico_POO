@@ -5,16 +5,22 @@ ConsultarP_bp = Blueprint('ConsultarP', __name__)
 
 @ConsultarP_bp.route('/consultar_pacientes')
 def pacientes():
+    
+    
+    
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
         pacientes = cursor.fetchall()
+        
         return render_template('consultar_pacientes.html', errores={}, pacientes=pacientes)
 
     except Exception as e:
         print('Error al consultar todo: ' + str(e))
-        flash('Error al consultar pacientes.', 'error')
-        return render_template('consultar_pacientes.html', errores={}, pacientes={})
+        flash('Error al consultar pacientes.' + str(e))
+        return render_template('consultar_pacientes.html', errores={}, pacientes={}, medicos = {})
 
     finally:
         cursor.close()
+
+    

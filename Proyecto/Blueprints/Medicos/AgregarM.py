@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from Cuerito import mysql
+from Cuerito import execute_query
 
 AgregarM_bp = Blueprint('AgregarM', __name__)
 
@@ -37,14 +37,19 @@ def guardar_medico():
                 VALUES (%s, %s, %s, %s, %s, %s, 1)
             '''
             params = (rfc, nombre, correo, cedula, rol, password)
-            mysql(query, params, commit=True)
-
-            flash('Médico registrado correctamente en la base de datos')
-            return redirect(url_for('AgregarM.agregar_medico'))
+            result = execute_query(query, params, commit=True)  
+            
+            
+            if result is not None:  
+                flash('Médico registrado correctamente en la base de datos', 'success')
+                return redirect(url_for('AgregarM.agregar_medico'))
+            else:
+                flash('Error al guardar el médico en la base de datos', 'error')
+                return render_template('agregar_medico.html', errores=errores)
 
         except Exception as e:
-            flash('Error al guardar el médico: ' + str(e))
-            return redirect(url_for('AgregarM.agregar_medico'))
+            flash('Error al guardar el médico: ' + str(e), 'error')
+            return render_template('agregar_medico.html', errores=errores)
 
     return render_template('agregar_medico.html', errores=errores)
 

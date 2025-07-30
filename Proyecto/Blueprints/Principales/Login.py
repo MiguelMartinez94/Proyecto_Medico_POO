@@ -41,7 +41,7 @@ def procesar_login():
                 session['medico_id'] = medico_dict['id_medico']
                 session['medico_nombre'] = medico_dict['nombre']
                 
-                return redirect(url_for('citas'))  # Redirigir a dashboard
+                return redirect(url_for('AdministrarM.administrar_medicos'))  # Redirigir a dashboard
             else:
                 flash('Contraseña incorrecta', 'error')
         else:

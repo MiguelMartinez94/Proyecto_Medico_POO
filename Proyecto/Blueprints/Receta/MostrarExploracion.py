@@ -1,0 +1,40 @@
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from Cuerito import execute_query
+
+MostrarExploracion_bp = Blueprint('MostrarExploracion', __name__)
+
+def obtener_nombre_paciente(id_paciente):
+    """Obtiene solo el nombre del paciente por su ID"""
+    try:
+        query = "SELECT nombre FROM expediente_pacientes WHERE id_paciente = %s"
+        result = execute_query(query, (id_paciente,), fetch="one")
+        
+        if result:
+            return {
+                'id': id_paciente,
+                'nombre': result[0]
+            }
+        return None
+    except Exception as e:
+        print(f"Error al obtener nombre del paciente: {e}")
+        return None
+
+@MostrarExploracion_bp.route('/mostrar_exploracion')
+def mostrar_exploracion():
+    id_paciente = request.args.get('id_paciente')
+    print(f"DEBUG: ID del paciente recibido: {id_paciente}")
+    
+    paciente_info = None
+    
+    if id_paciente:
+        paciente_info = obtener_nombre_paciente(id_paciente)
+        print(f"DEBUG: Datos del paciente obtenidos: {paciente_info}")
+        
+        if not paciente_info:
+            flash('Paciente no encontrado', 'error')
+            return redirect(url_for('ConsultarP.pacientes'))
+    else:
+        flash('No se especificó un paciente', 'warning')
+        return redirect(url_for('ConsultarP.pacientes'))
+    
+    return render_template('cita_exploracion_diagnostico.html', paciente_info=paciente_info)
