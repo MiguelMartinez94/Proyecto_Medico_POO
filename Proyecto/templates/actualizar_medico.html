@@ -31,7 +31,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-user"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ nombre }}" required>
+                                                <input type="text" class="form-control"  name="nombre" value="{{ nombre }}">
                                             </div>
                                         </div>
                                         
@@ -43,7 +43,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-id-card"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="rfc" name="rfc" value="{{ rfc }}" required readonly>
+                                                <input type="text" class="form-control"  name="rfc" value="{{ rfc }}"  readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-envelope"></i>
                                                 </span>
-                                                <input type="email" class="form-control" id="correo" name="correo" value="{{ correo }}" required>
+                                                <input type="email" class="form-control"  name="correo" value="{{ correo }}" >
                                             </div>
                                         </div>
                                         
@@ -69,7 +69,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-id-badge"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="cedula" name="cedula" value="{{ cedula }}" required>
+                                                <input type="text" class="form-control"  name="cedula" value="{{ cedula }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -92,7 +92,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-key"></i>
                                                 </span>
-                                                <input type="password" class="form-control" id="password" name="password" value="{{ password }}" required>
+                                                <input type="password" class="form-control"  name="password" value="{{ password }}" >
                                                 <button class="btn btn-outline-dark btn-sm" type="button" id="togglePassword">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -107,7 +107,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-key"></i>
                                                 </span>
-                                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="{{ password }}" required>
+                                                <input type="password" class="form-control"  name="confirmPassword" value="{{ password }}" >
                                                 <button class="btn btn-outline-dark btn-sm" type="button" id="toggleConfirmPassword">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -132,7 +132,7 @@
                                             <span class="input-group-text">
                                                 <i class="fas fa-user-tag"></i>
                                             </span>
-                                            <select class="form-select" id="rol" name="rol" required>
+                                            <select class="form-select"  name="rol" >
                                                 <option value="medico" {% if rol == 'medico' %}selected{% endif %}>Médico General</option>
                                                 <option value="medico_admin" {% if rol == 'medico_admin' %}selected{% endif %}>Médico Administrador</option>
                                                 <option value="especialista" {% if rol == 'especialista' %}selected{% endif %}>Médico Especialista</option>

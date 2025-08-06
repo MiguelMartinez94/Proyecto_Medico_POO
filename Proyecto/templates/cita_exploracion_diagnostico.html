@@ -13,10 +13,10 @@
                         <img src="{{ url_for('static', filename='imagenes/foto_perfil.png') }}" alt="Foto de perfil" class="rounded-circle mb-3" style="width: 60px; height: 60px;">
                         {% if paciente_info %}
                             <p class="mb-1"><strong>{{ paciente_info['nombre'] }}</strong></p>
-                            <p class="mb-0">Folio: {{ paciente_info['id'] }}</p>
+                            
                         {% else %}
                             <p class="mb-1">No cargó nombre del paciente</p>
-                            <p class="mb-0">Folio: XXXXXX</p>
+                            
                         {% endif %}
                     </div>
                 </div>
