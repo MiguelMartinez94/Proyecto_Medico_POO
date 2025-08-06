@@ -46,7 +46,7 @@
                                         <td>{{ medico[2] }}</td>
                                         <td>{{ medico[3] }}</td>
                                         <td>{{ medico[4] }}</td>
-                                        <td>{{ medico[5] }}</td>
+                                        <td>{{ medico[6] }}</td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
                                                 
@@ -60,7 +60,7 @@
 
 
                                                 <form action="{{ url_for('EliminarM.eliminar_medico', rfc=medico[1]) }}" method="POST">
-                                                    <button class="btn btn-outline-danger btn-sm" type="submit">
+                                                    <button class="btn btn-outline-danger btn-sm" type="submit" onsubmit="return confirm('¿Estás seguro de eliminar este médico?')">
                                                         <i class="fas fa-trash-alt"></i> Eliminar
                                                     </button>
                                                 </form>

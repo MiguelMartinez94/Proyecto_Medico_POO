@@ -1,16 +1,18 @@
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, session
 from Cuerito import mysql
+
+
 
 ConsultarP_bp = Blueprint('ConsultarP', __name__)
 
 @ConsultarP_bp.route('/consultar_pacientes')
 def pacientes():
     
-    
+    id_medico = session.get('medico_id')
     
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
+        cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1 and id_medico = %s', (id_medico,))
         pacientes = cursor.fetchall()
         
         return render_template('consultar_pacientes.html', errores={}, pacientes=pacientes)

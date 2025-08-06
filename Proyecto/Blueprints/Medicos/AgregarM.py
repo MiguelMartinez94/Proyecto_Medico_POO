@@ -42,7 +42,7 @@ def guardar_medico():
             
             if result is not None:  
                 flash('Médico registrado correctamente en la base de datos', 'success')
-                return redirect(url_for('AgregarM.agregar_medico'))
+                return redirect(url_for('AdministrarM.administrar_medicos'))
             else:
                 flash('Error al guardar el médico en la base de datos', 'error')
                 return render_template('agregar_medico.html', errores=errores)
@@ -51,7 +51,7 @@ def guardar_medico():
             flash('Error al guardar el médico: ' + str(e), 'error')
             return render_template('agregar_medico.html', errores=errores)
 
-    return render_template('agregar_medico.html', errores=errores)
+    return render_template('administrar_medicos.html', errores=errores)
 
 @AgregarM_bp.route('/agregar_medico', methods=['GET', 'POST'])
 def agregar_medico():

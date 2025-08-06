@@ -4,7 +4,7 @@ from Cuerito import execute_query
 MostrarExploracion_bp = Blueprint('MostrarExploracion', __name__)
 
 def obtener_nombre_paciente(id_paciente):
-    """Obtiene solo el nombre del paciente por su ID"""
+    
     try:
         query = "SELECT nombre FROM expediente_pacientes WHERE id_paciente = %s"
         result = execute_query(query, (id_paciente,), fetch="one")
@@ -22,7 +22,7 @@ def obtener_nombre_paciente(id_paciente):
 @MostrarExploracion_bp.route('/mostrar_exploracion')
 def mostrar_exploracion():
     id_paciente = request.args.get('id_paciente')
-    print(f"DEBUG: ID del paciente recibido: {id_paciente}")
+    
     
     paciente_info = None
     
