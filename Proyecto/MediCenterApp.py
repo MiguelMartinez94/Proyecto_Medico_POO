@@ -2,6 +2,7 @@
 
 from flask import Flask, jsonify, render_template, request, url_for, flash, redirect
 
+
 from ConexionBD import init_mysql
 
 from Blueprints.Principales.DBCheck import DBCheck_bp
@@ -16,15 +17,22 @@ from Blueprints.Pacientes.RegistrarP import RegistrarP_bp
 from Blueprints.Pacientes.ConsultarP import ConsultarP_bp
 from Blueprints.Pacientes.EliminarP import EliminarP_bp
 from Blueprints.Pacientes.ActualizarP import ActualizarP_bp
+from Blueprints.Pacientes.BuscarPacientes import BuscarPacientes_bp
 
 from Blueprints.Receta.GuardarReceta import GuardarR_bp
 from Blueprints.Receta.MostrarExploracion import MostrarExploracion_bp
 from Blueprints.Receta.ImprimirReceta import ImprimirReceta_bp
 #from Blueprints.Receta.ImprimirReceta import ImprimirR_bp
 
+from Blueprints.Citas.AgregarC import AgregarCita_bp
+from Blueprints.Citas.ConsultarC import ConsultarCitas_bp
+from Blueprints.Citas.MostrarPacienteCitas import MostrarPacienteCitas_bp
+
+
 
 app = Flask(__name__)
 mysql = init_mysql(app)
+
 
 #Blueprints Generales
 
@@ -52,6 +60,8 @@ app.register_blueprint(EliminarP_bp)
 
 app.register_blueprint(ActualizarP_bp)
 
+app.register_blueprint(BuscarPacientes_bp)
+
 
 #Blueprints para Receta
 
@@ -60,6 +70,12 @@ app.register_blueprint(MostrarExploracion_bp)
 app.register_blueprint(ImprimirReceta_bp)
 
 #app.register_blueprint(ImprimirR_bp)
+
+#Blueprints para citas
+
+app.register_blueprint(AgregarCita_bp)
+app.register_blueprint(ConsultarCitas_bp)
+app.register_blueprint(MostrarPacienteCitas_bp)
 
 #Apartir de aqui se añaden rutas
 
@@ -77,7 +93,7 @@ def login():
 
 @app.errorhandler(404) #Ruta try-catch 404
 def PagNoE(e):
-    return 'EY! Aprenda a escribir :)'
+    return 'EY! esta no es la ruta'
 
 @app.errorhandler(405) #Ruta try-catch 405
 def PagNoE(e):

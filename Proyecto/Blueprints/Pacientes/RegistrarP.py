@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from Cuerito import mysql
+from auth import login_necesario
 
 RegistrarP_bp = Blueprint('RegistrarP', __name__)
 
 @RegistrarP_bp.route('/registrar_paciente')
+@login_necesario
 def vistaRegistroPaciente():
     
-    
-    #Consulta de los medicos que existen en la base de datos
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM administracion_medicos WHERE estado = 1')
     medicos = cursor.fetchall()
@@ -16,6 +16,7 @@ def vistaRegistroPaciente():
     return render_template('registrar_pacientes.html',  medicos = medicos)
 
 @RegistrarP_bp.route('/registrar_pacientes', methods=['GET','POST'])
+@login_necesario
 def registrarPaciente():
     errores = {}
     

@@ -1,10 +1,13 @@
 from flask import Blueprint, request, render_template, flash, redirect, url_for
 from Cuerito import mysql
+from auth import login_necesario
 
 EditarM_bp = Blueprint('EditarM', __name__)
 
 @EditarM_bp.route('/editar_medico/<rfc>', methods=['POST'])
+@login_necesario
 def editar_medico(rfc):
+    
     nombre = request.form.get('nombre', '').strip()
     correo = request.form.get('correo', '').strip()
     cedula = request.form.get('cedula', '').strip()
@@ -40,6 +43,7 @@ def editar_medico(rfc):
         )
 
     try:
+        
         cursor = mysql.connection.cursor()
         cursor.execute('''
             UPDATE administracion_medicos 
@@ -49,9 +53,12 @@ def editar_medico(rfc):
         mysql.connection.commit()
         flash('Médico actualizado correctamente')
         return redirect(url_for('AdministrarM.administrar_medicos'))
+    
     except Exception as e:
+        
         mysql.connection.rollback()
         flash('Error al actualizar el médico: ' + str(e))
         return redirect(url_for('EditarM.editar_medico', rfc=rfc))
+    
     finally:
         cursor.close()
