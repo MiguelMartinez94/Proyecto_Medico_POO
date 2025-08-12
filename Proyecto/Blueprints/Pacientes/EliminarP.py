@@ -1,9 +1,11 @@
 from flask import Blueprint, redirect, url_for, flash, request
 from Cuerito import mysql
+from auth import login_necesario
 
 EliminarP_bp = Blueprint('EliminarP', __name__)
 
 @EliminarP_bp.route('/eliminar_paciente/<int:id>', methods=['POST'])
+@login_necesario
 def eliminar_paciente(id):
     try:
         cursor = mysql.connection.cursor()

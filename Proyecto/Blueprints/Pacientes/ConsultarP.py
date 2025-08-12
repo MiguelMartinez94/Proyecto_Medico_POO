@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, flash, session
 from Cuerito import mysql
+from auth import login_necesario
 
 
 
 ConsultarP_bp = Blueprint('ConsultarP', __name__)
 
 @ConsultarP_bp.route('/consultar_pacientes')
+@login_necesario
 def pacientes():
     
     id_medico = session.get('medico_id')

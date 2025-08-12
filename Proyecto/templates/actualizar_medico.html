@@ -10,7 +10,7 @@
                 <div class="card border-2 rounded-4">
                     <div class="card-body">
                         <h1 class="card-title text-center mb-4">
-                            <i class="fas fa-user-md text-primary"></i> Actualizar Médico
+                            Actualizar Médico
                         </h1>
                         
                         <form action="{{ url_for('EditarM.editar_medico', rfc=rfc) }}" method="POST">
@@ -19,7 +19,7 @@
                             <div class="card border-2 rounded-4 mb-4">
                                 <div class="card-body">
                                     <h2 class="card-title h5 mb-3">
-                                        <i class="fas fa-id-card text-primary"></i> Información Personal
+                                        Información Personal
                                     </h2>
                                     
                                     <div class="row mb-3">
@@ -28,9 +28,7 @@
                                                 Nombre Completo <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-user"></i>
-                                                </span>
+                                                
                                                 <input type="text" class="form-control"  name="nombre" value="{{ nombre }}">
                                             </div>
                                         </div>
@@ -40,9 +38,7 @@
                                                 RFC <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-id-card"></i>
-                                                </span>
+                                                
                                                 <input type="text" class="form-control"  name="rfc" value="{{ rfc }}"  readonly>
                                             </div>
                                         </div>
@@ -54,9 +50,7 @@
                                                 Correo Electrónico <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-envelope"></i>
-                                                </span>
+                                                
                                                 <input type="email" class="form-control"  name="correo" value="{{ correo }}" >
                                             </div>
                                         </div>
@@ -66,9 +60,7 @@
                                                 Cédula Profesional <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-id-badge"></i>
-                                                </span>
+                                                
                                                 <input type="text" class="form-control"  name="cedula" value="{{ cedula }}" >
                                             </div>
                                         </div>
@@ -80,7 +72,7 @@
                             <div class="card border-2 rounded-4 mb-4">
                                 <div class="card-body">
                                     <h2 class="card-title h5 mb-3">
-                                        <i class="fas fa-lock text-primary"></i> Seguridad
+                                        Seguridad
                                     </h2>
                                     
                                     <div class="row">
@@ -89,13 +81,9 @@
                                                 Contraseña <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-key"></i>
-                                                </span>
+                                                
                                                 <input type="password" class="form-control"  name="password" value="{{ password }}" >
-                                                <button class="btn btn-outline-dark btn-sm" type="button" id="togglePassword">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
+                                                
                                             </div>
                                         </div>
                                         
@@ -104,13 +92,9 @@
                                                 Confirmar Contraseña <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-key"></i>
-                                                </span>
+                                                
                                                 <input type="password" class="form-control"  name="confirmPassword" value="{{ password }}" >
-                                                <button class="btn btn-outline-dark btn-sm" type="button" id="toggleConfirmPassword">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +105,7 @@
                             <div class="card border-2 rounded-4 mb-4">
                                 <div class="card-body">
                                     <h2 class="card-title h5 mb-3">
-                                        <i class="fas fa-user-tag text-primary"></i> Rol en el Sistema
+                                        Rol en el Sistema
                                     </h2>
                                     
                                     <div class="col-md-6">
@@ -129,9 +113,7 @@
                                             Rol en el Sistema <span class="text-danger">*</span>
                                         </label>
                                         <div class="input-group">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-user-tag"></i>
-                                            </span>
+                                            
                                             <select class="form-select"  name="rol" >
                                                 <option value="medico" {% if rol == 'medico' %}selected{% endif %}>Médico General</option>
                                                 <option value="medico_admin" {% if rol == 'medico_admin' %}selected{% endif %}>Médico Administrador</option>
@@ -143,7 +125,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-dark w-100">
-                                <i class="fas fa-save"></i> Actualizar Médico
+                                Actualizar Médico
                             </button>
                         </form>
                     </div>

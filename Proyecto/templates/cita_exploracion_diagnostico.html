@@ -177,9 +177,18 @@
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <div class="text-center">
-                        <button type="button" class="btn btn-outline-dark btn-sm me-3">Limpiar</button>
+                        
+                        
+                        <a href="{{ url_for('ConsultarP.pacientes') }}" class="btn btn-outline-dark">
+                                    <i class="fas fa-arrow-left"></i> Volver a Administración
+                                </a>
+
                         <button type="submit" class="btn btn-dark btn-sm me-3">Registrar Diagnóstico y Exploración</button>
+
+
                         <a href="/descargar_receta/{{ paciente_info.id }}" class="btn btn-outline-dark btn-sm" {% if not paciente_info %}style="pointer-events: none; opacity: 0.5;"{% endif %}>Descargar Receta</a>
+
+
                     </div>
 
                         

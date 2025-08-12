@@ -3,18 +3,27 @@
     {% block body %}
 
     <div class="container-fluid mt-4">
+
         <div class="row">
+
             <div class="col-md-6 mb-4">
+
                 <div class="card border-2 rounded-4">
+
                     <div class="card-body">
+
                         <h1 class="card-title text-center">Modificar Expediente</h1>
+
+
                         {% if paciente %}
+
                         <form action="{{ url_for('ActualizarP.guardarPacienteActualizado') }}" method="post">
+
                             <input type="hidden" name="id_paciente" value="{{ paciente[0] }}">
 
                             <div class="mb-2">
+
                                 <label class="form-label">Médico que Atiende</label>
-                                
                                 
                                 <select name="n_medico_atiende">
                                     <option value="">-- Selecciona un médico --</option>
@@ -23,72 +32,108 @@
                                     {% endfor %}
                                 </select>
 
+
                                 {% if errores and errores.n_medico_atiende %}
                                     <p style="color: red">{{ errores.n_medico_atiende }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="mb-2">
+
                                 <label class="form-label">Nombre Completo del Paciente:</label>
                                 <input type="text" class="form-control" name="n_paciente" value="{{ paciente[2] or '' }}">
+
                                 {% if errores and errores.n_paciente %}
                                     <p style="color: red">{{ errores.n_paciente }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="mb-2">
+
                                 <label class="form-label">Fecha de Nacimiento:</label>
+
                                 <input type="date" class="form-control" name="n_fecha_nacimiento" value="{{ paciente[3] or '' }}">
+
                                 {% if errores and errores.n_fecha_nacimiento %}
                                     <p style="color: red">{{ errores.n_fecha_nacimiento }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="mb-2">
+
                                 <label class="form-label">Enfermedades Crónicas:</label>
+
                                 <input type="text" class="form-control" name="n_enfermedades_cronicas" value="{{ paciente[4] or '' }}">
+
                                 {% if errores and errores.n_enfermedades_cronicas %}
                                     <p style="color: red">{{ errores.n_enfermedades_cronicas }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="mb-2">
+
                                 <label class="form-label">Alergias:</label>
+
                                 <input type="text" class="form-control" name="n_alergias" value="{{ paciente[5] or '' }}">
+                                
                                 {% if errores and errores.n_alergias %}
                                     <p style="color: red">{{ errores.n_alergias }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="mb-2">
+
                                 <label class="form-label">Antecedentes Familiares:</label>
+
                                 <input type="text" class="form-control" name="n_antecedentes" value="{{ paciente[6] or '' }}">
+                                
                                 {% if errores and errores.n_antecedentes %}
                                     <p style="color: red">{{ errores.n_antecedentes }}</p>
                                 {% endif %}
+
                             </div>
 
                             <div class="d-flex justify-content-between mt-3">
-                                <button type="reset" class="btn btn-outline-dark btn-sm">Limpiar</button>
+
+                                
                                 <button type="submit" class="btn btn-dark btn-sm">Actualizar Expediente</button>
+
                             </div>
+
                         </form>
+
                         {% else %}
                         <p class="text-center">Seleccione un paciente para modificar</p>
                         {% endif %}
+
                     </div>
+
                 </div>
+
             </div>
 
             <div class="col-md-6 mb-4">
+
                 <div class="card border-2 rounded-4">
+
                     <div class="card-body">
+
                         <h1 class="card-title text-center">Pacientes Actuales</h1>
 
-                        <div class="d-flex justify-content-end mb-3">
-                            <input type="text" class="form-control me-2" placeholder="Buscar paciente..." style="width: 70%;">
-                            <button class="btn btn-dark btn-sm">Buscar</button>
-                        </div>
+                        
+                        
+                            <div class="d-flex justify-content-end mb-3">
+                                <form action="{{ url_for('BuscarPacientes.buscar_pacientes') }}" method="POST">
+                                    <input type="text" name="nombre_paciente" placeholder="Buscar paciente...">
+                                    <button type="submit">Buscar</button>
+                                </form>
+                            </div>
+                        
 
                         {% with mensajes = get_flashed_messages() %}
                             {% if mensajes %}
@@ -99,8 +144,11 @@
                         {% endwith %}
 
                         <div class="table-responsive">
+
                             <table class="table table-bordered">
+
                                 <thead class="table-dark">
+
                                     <tr>
                                         <th>Nombre del Paciente</th>
                                         <th>Fecha de Nacimiento</th>
@@ -109,8 +157,12 @@
                                         <th>Antecedentes Familiares</th>
                                         <th>Acciones</th>
                                     </tr>
+
                                 </thead>
+
+
                                 <tbody>
+
                                     {% for paciente in pacientes %}
                                     <tr>
                                         <td>{{ paciente[2] }}</td>
@@ -121,17 +173,15 @@
                                         <td>
                                             
                                             <a href="{{ url_for('MostrarExploracion.mostrar_exploracion', id_paciente=paciente[0]) }}" class="btn btn-outline-dark btn-sm mb-1">
-                                                <i class="fas fa-edit"></i> Receta
+                                                Receta
                                             </a>
 
                                             <a href="/descargar_receta/{{ paciente.0 }}/{{ paciente.2}}" class="btn btn-outline-dark btn-sm" {% if not paciente.0 %}style="pointer-events: none; opacity: 0.5;"{% endif %}>Descargar Receta</a>
-                    </div>
+                    
 
-                                                <form action="#" >
-                                                    <button class="btn btn-outline-dark btn-sm" type="submit">
-                                                        <i class="fas fa-edit"></i> Consultar Citas
-                                                    </button>
-                                                </form>
+                                            <a href="{{ url_for('MostrarPacienteCitas.mostrar_paciente_citas', id_paciente=paciente[0]) }}" class="btn btn-outline-dark btn-sm mb-1">
+                                                Consultar Citas
+                                            </a>
                                             
                                             <form action="{{ url_for('ActualizarP.consulta_actualizar', id=paciente[0]) }}" class="d-inline">
                                                 <button type="submit" class="btn btn-outline-dark btn-sm mb-1">Modificar</button>
@@ -142,17 +192,25 @@
                                         </td>
                                     </tr>
                                     {% endfor %}
+
                                 </tbody>
+
                             </table>
+
                         </div>
 
                         <div class="text-center mt-3">
                             <a href="{{ url_for('RegistrarP.vistaRegistroPaciente') }}" class="btn btn-dark w-100">Registrar Nuevo Paciente</a>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+        
     </div>
 
     {% endblock %}

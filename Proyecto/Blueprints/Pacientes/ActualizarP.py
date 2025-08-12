@@ -1,16 +1,20 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from Cuerito import mysql
+from auth import login_necesario
 
 ActualizarP_bp = Blueprint('ActualizarP', __name__)
 
 @ActualizarP_bp.route('/actualizar_paciente/<int:id>')
+@login_necesario
 def consulta_actualizar(id):
     
     
+    id_medico = session.get('medico_id')
     
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM expediente_pacientes WHERE id_paciente = %s', (id,))
+        cursor.execute('select * from expediente_pacientes where id_paciente = %s', (id,))
+        
         paciente = cursor.fetchone()
         
         cursor = mysql.connection.cursor()
@@ -19,7 +23,7 @@ def consulta_actualizar(id):
         
 
         if paciente:
-            cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
+            cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1 and id_medico = %s', (id_medico,))
             consultaTodo = cursor.fetchall()
             return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, medicos = medicos, errores={})
         else:
@@ -83,23 +87,4 @@ def guardarPacienteActualizado():
         finally:
             cursor.close()
 
-    # Si hubo errores, vuelve a cargar la información
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM expediente_pacientes WHERE estado = 1')
-        consultaTodo = cursor.fetchall()
-        paciente = {
-            'id_paciente': idUpdatePaciente,
-            'id_medico': nMedico,
-            'nombre': nPaciente,
-            'fecha_nacimiento': nFecha,
-            'enfermedades_cronicas': nEnfermedades,
-            'alergias': nAlergias,
-            'antecedentes_familiares': nAntecedentes
-        }
-        return render_template('consultar_pacientes.html', paciente=paciente, pacientes=consultaTodo, errores=errores)
-    except Exception as e:
-        print('Error al consultar pacientes: ' + str(e))
-        return redirect(url_for('ConsultarP.pacientes'))
-    finally:
-        cursor.close()
+    

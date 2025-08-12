@@ -1,68 +1,127 @@
-    {% extends 'plantilla.html' %}
+{% extends 'plantilla.html' %}
 
-    {% block body %}
+{% block body %}
 
-    <div class="container-fluid mt-3">
-        <div class="row">
-     
-            <div class="col-md-3 sidebar">
-                <h4 class="text-center">Consulta de Citas</h4>
 
+
+<div class="container-fluid mt-3">
+
+    <div class="row">
+
+        <div class="col-md-3 sidebar">
+
+            <h4 class="text-center">Consulta de Citas</h4>
+            
                 <div class="card mb-4 border-2">
                     <div class="card-body text-center">
                         <h6 class="card-title">Perfil de Paciente</h6>
                         <img src="../static/imagenes/foto_perfil.png" alt="foto en blanco" class="rounded-circle" width="100" height="100">
-                        <p><strong>Jorge Morales</strong><br>Folio: 1315851</p>
-                        <button class="btn btn-outline-dark btn-sm">Imprimir última receta</button>
+                        {% if paciente %}
+                            <p><strong>{{ paciente.1 }}</strong></p>
+                        {% else %}
+                            <p><strong>No seleccionado</strong></p>
+                        {% endif %}
+                        
                     </div>
                 </div>
+            
+            
+            <form action="{{ url_for('AgregarCita.registrarCitas') }}" method="POST">
+
                 <div class="card mb-4 border-2 rounded-4 p-2">
-                    <h6 class="text-center">Filtros de Búsqueda</h6>
+
+                    <h6 class="text-center">Agregar una Cita</h6>
+                    
+                    
+                    <input type="hidden" name="paciente_id" value="{{ paciente.0 }}">
+                    
                     <div class="mb-2">
-                        <label for="folio" class="form-label">Folio del Paciente</label>
-                        <input type="text" class="form-control" id="folio" placeholder="XXXXXXXXXX">
-                    </div>
-                    <div class="mb-2">
-                        <label for="nombre" class="form-label">Nombre del Paciente</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Ejemplo: Pepe Pecas">
-                    </div>
-                    <div class="mb-2">
-                        <label for="ordenar" class="form-label">Ordenar por</label>
-                        <select class="form-select" id="ordenar">
-                            <option selected>Seleccionar...</option>
-                            <option value="1">Más recientes</option>
-                            <option value="2">Más antiguos</option>
-                            <option value="3">Nombre de A a Z</option>
-                            <option value="4">Nombre de Z a A</option>
+                        <label for="medico_id" class="form-label">Médico</label>
+                        <select class="form-control" name="medico_id">
+                            <option value="">Seleccionar médico...</option>
+                            {% if medicos %}
+                                {% for medico in medicos %}
+                                    <option value="{{ medico.0 }}">{{ medico.1 }}</option>
+                                {% endfor %}
+                            {% endif %}
                         </select>
                     </div>
+                    
                     <div class="mb-2">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha">
+                        <label for="fecha_cita" class="form-label">Fecha de la Cita</label>
+                        <input type="date" class="form-control" name="fecha_cita">
                     </div>
-                    <button class="btn btn-dark w-100">Iniciar Búsqueda</button>
+                    
+                    <div class="mb-2">
+                        <label for="hora_cita" class="form-label">Hora de la Cita</label>
+                        <input type="time" class="form-control" name="hora_cita">
+                    </div>
+                    
+                    {% with mensajes = get_flashed_messages() %}
+                        {% if mensajes %}
+                            {% for msj in mensajes %}
+                                <div class="alert alert-info text-center">{{ msj }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <button class="btn btn-dark w-100" type="submit">Guardar Cita</button>
                 </div>
-            </div>
-           
-            <div class="col-md-9 position-relative">
-                <div class="printing-box">Imprimiendo<br>Diagnóstico (Receta)…</div>
-                <div class="row mt-4">
-                    <div class="col-md-4 appointment-card">
-                        <img src="../static/imagenes/calendario_1.jpg" alt="calendario" width="200" height="200">
-                        <p><strong>Cita con Dr. Emiliano Ortíz</strong><br>Fecha: 29/05/2025<br><strong>7:30 p.m.</strong></p>
-                    </div>
-                    <div class="col-md-4 appointment-card">
-                        <img src="../static/imagenes/calendario_1.jpg" alt="calendario" width="200" height="200">
-                        <p><strong>Cita con Dr. Miguel Martínez</strong><br>Fecha: 05/06/2025<br><strong>10:00 a.m.</strong></p>
-                    </div>
-                    <div class="col-md-4 appointment-card">
-                        <img src="../static/imagenes/calendario_1.jpg" alt="calendario" width="200" height="200">
-                        <p><strong>Cita con Dr. Emiliano Ortíz</strong><br>Fecha: 30/06/2025<br><strong>4:30 p.m.</strong></p>
-                    </div>
+            </form>
+            
+
+                                <a href="{{ url_for('ConsultarP.pacientes') }}" class="btn btn-outline-dark">
+                                    <i class="fas fa-arrow-left"></i> Volver a Administración
+                                </a>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Citas del Paciente: 
+                        {% if paciente %}
+                            {{ paciente.1 }}
+                        {% else %}
+                            Paciente no selecionado
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if citas %}
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nombre del Paciente</th>
+                                    <th>Nombre del Médico</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cita in citas %}
+                                    <tr>
+                                        <td>{{ cita.0 }}</td>
+                                        <td>{{ cita.1 }}</td>
+                                        <td>{{ cita.2 }}</td>
+                                        <td>{{ cita.3 }}</td>
+                                        
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-info text-center">
+                            {% if paciente %}
+                                No se encontraron citas para este paciente.
+                            {% else %}
+                                Selecciona un paciente para ver sus citas.
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    
-
-    {% endblock %}
+</div>
+{% endblock %}

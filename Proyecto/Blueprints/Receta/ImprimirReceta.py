@@ -5,23 +5,24 @@ from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
 from datetime import datetime
 from Cuerito import execute_query
+from auth import login_necesario
 
 ImprimirReceta_bp = Blueprint('ImprimirReceta', __name__)
 
 @ImprimirReceta_bp.route('/descargar_receta/<id_paciente>/<nombre_paciente>')
+@login_necesario
 def descargar_receta(id_paciente, nombre_paciente):
     try:
-        # Obtener datos del paciente y su última receta
         query_paciente = "SELECT nombre FROM expediente_pacientes WHERE id_paciente = %s"
         paciente = execute_query(query_paciente, (id_paciente,), fetch="one")
         
         query_diagnostico = """
-            SELECT sintomas, diagnostico, receta, indicaciones 
-            FROM diagnosticos 
-            WHERE id_paciente = %s 
-            ORDER BY id_diagnostico DESC 
-            LIMIT 1
-        """
+                                SELECT sintomas, diagnostico, receta, indicaciones 
+                                FROM diagnosticos 
+                                WHERE id_paciente = %s 
+                                ORDER BY id_diagnostico DESC 
+                                LIMIT 1
+                            """
         diagnostico = execute_query(query_diagnostico, (id_paciente,), fetch="one")
         
         if not paciente:
