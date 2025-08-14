@@ -39,7 +39,7 @@ def descargar_receta(id_paciente, nombre_paciente):
         styles = getSampleStyleSheet()
         content = []
         
-        # Contenido simple
+        
         content.append(Paragraph("RECETA MÉDICA", styles['Title']))
         content.append(Spacer(1, 20))
         
