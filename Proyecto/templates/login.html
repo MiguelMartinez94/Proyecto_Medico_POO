@@ -87,7 +87,7 @@
             <form action="{{ url_for('Login.procesar_login') }}" method="POST">
                 <input type="text" name="txtRFC" placeholder="RFC" value="{{request.form.txtRFC}}">
                 <input type="password" name="txtContrasena" placeholder="Contraseña"  value="{{request.form.txtContrasena}}">
-                <a href="#">¿Olvidó su contraseña?</a>
+                
                 <button type="submit">Entrar</button>
 
                         {%with mensajes =  get_flashed_messages()%}

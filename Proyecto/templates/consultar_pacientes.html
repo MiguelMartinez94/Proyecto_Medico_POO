@@ -186,7 +186,7 @@
                                             <form action="{{ url_for('ActualizarP.consulta_actualizar', id=paciente[0]) }}" class="d-inline">
                                                 <button type="submit" class="btn btn-outline-dark btn-sm mb-1">Modificar</button>
                                             </form>
-                                            <form action="{{ url_for('EliminarP.eliminar_paciente', id=paciente[0]) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este paciente?')" class="d-inline">
+                                            <form action="{{ url_for('EliminarP.eliminar_paciente', id=paciente[0]) }}" method="post"  class="d-inline">
                                                 <button type="submit" class="btn btn-outline-dark btn-sm mb-1">Eliminar</button>
                                             </form>
                                         </td>
